@@ -1,4 +1,4 @@
-# Sulipy Rooftop Rush
+# Rooftop Rush
 ## Csapattagok:
 - #### Bánhidai Mátyás
 - #### Kállai Gábor
