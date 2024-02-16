@@ -24,6 +24,6 @@
         "--disable=too-few-public-methods",
         "--disable=cell-var-from-loop",
         "--extension-pkg-whitelist=pygame",
-        "--disable=attribute-defined-outside-init",
-    ],
+        "--disable=attribute-defined-outside-init"
+    ]
 }
