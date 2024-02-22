@@ -1,8 +1,11 @@
 import pygame
 
 class Game:
-    def __init__(self) -> None:
+    def __init__(self, width: int = 800, height: int = 600) -> None:
         pygame.init()
+        
+        self.width: int = width
+        self.height: int = height
         
     def run(self) -> None:
         while True:
