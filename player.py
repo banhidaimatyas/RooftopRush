@@ -4,7 +4,7 @@ import pygame
 class Player:
     def __init__(self, pos: tuple[int]):
         super().__init__()
-        self.image = pygame.image.load("")
+        self.image = pygame.image.load("Img/Character/PNG Sequences/Idle/0_Fallen_Angels_Idle_000.png")
         self.rect: pygame.Rect = self.image.get_rect(topright=pos)
         self.direction = pygame.math.Vector2(0, 0)
         self.speed: int = 7
