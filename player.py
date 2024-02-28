@@ -1,34 +1,38 @@
+from typing import Any
 import pygame
 
 
-class Player:
-    def __init__(self, pos: tuple[int]):
-        super().__init__()
-        self.image = pygame.image.load("Img/Character/PNG Sequences/Idle/0_Fallen_Angels_Idle_000.png")
-        self.rect: pygame.Rect = self.image.get_rect(topright=pos)
-        self.direction = pygame.math.Vector2(0, 0)
-        self.speed: int = 7
+class Player(pygame.sprite.Sprite):
+    def __init__(self, x: float, y: float):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.image.load(
+            "Img/Character/PNG Sequences/Idle/0_Fallen_Angels_Idle_000.png"
+        ).convert_alpha()
+        self.image = pygame.transform.rotozoom(self.image, 0, 0.1)
+        self.rect: pygame.Rect = self.image.get_rect(topright=(x, y))
         self.gravity_value: int = 1
         self.jump_speed: int = -10
         self.on_ground: bool = True
+        self.on_ground: bool = True
+        self.gravity: float = 0.01
+        self.jump_speed: int = -16
+        self.dy: float = 0
 
     def input(self):
         keys = pygame.key.get_pressed()
         if keys[pygame.K_UP] and self.on_ground:
             self.on_ground = False
             self.jump()
-        if keys[pygame.K_DOWN] and self.on_ground:
-            self.slide()
 
-    def slide(self):
-        pass
-        
-    def gravity(self):
-        self.direction.y += self.gravity_value
-        self.rect.y += self.direction.y
+    def apply_gravity(self):
+        self.dy += self.gravity
+        self.rect.y += self.dy
 
     def jump(self):
-        self.direction.y = self.jump_speed
+        self.on_ground: bool = False
+        self.dy = self.jump_speed
 
-    def update(self):
+    def update(self, *args: Any, **kwargs: Any) -> None:
+        super().update(*args, **kwargs)
+        self.apply_gravity()
         self.input()
