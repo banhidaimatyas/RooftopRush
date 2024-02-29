@@ -1,28 +1,26 @@
 from typing import Any
 from support import import_folder
+from setting import CH_SPEED
 import pygame
 
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, x: int, y: int):
         pygame.sprite.Sprite.__init__(self)
-        self.animations: dict[str, list[pygame.Surface]] = {'Running': []}
+        self.animations: dict[str, list[pygame.Surface]] = {"Running": []}
         # self.image = pygame.image.load(
         #     "Img/Character/PNG Sequences/Idle/0_Fallen_Angels_Idle_000.png"
         # ).convert_alpha()
         self.frame_index = 0
         self.import_character_assets()
-        self.animation_speed: float = 0.15
+        self.animation_speed: float = CH_SPEED
         self.status = "Running"
         self.animate()
-        self.image = self.animations['Running'][4]
-        
-        
-        self.rect: pygame.Rect = self.image.get_rect(topright=(x, y))
-        
-        self.setting_gravity()
+        self.image = self.animations["Running"][4]
 
-        
+        self.rect: pygame.Rect = self.image.get_rect(topright=(x, y))
+
+        self.setting_gravity()
 
     def setting_gravity(self):
         self.gravity_value: int = 1
@@ -31,7 +29,7 @@ class Player(pygame.sprite.Sprite):
         self.gravity: int = 1
         self.jump_speed: int = -16
         self.dy: int = 0
-    
+
     def animate(self):
         animation = self.animations[self.status]
         self.frame_index += self.animation_speed
@@ -40,8 +38,7 @@ class Player(pygame.sprite.Sprite):
         self.image = animation[int(self.frame_index)]
 
     def get_status(self):
-        self.status = 'Running'
-
+        self.status = "Running"
 
     def import_character_assets(self):
         character_path = "Img/Character/PNG Sequences/"
@@ -69,5 +66,3 @@ class Player(pygame.sprite.Sprite):
         self.get_status()
         self.animate()
         self.apply_gravity()
-        
-        
