@@ -13,8 +13,7 @@ class Player(pygame.sprite.Sprite):
         self.gravity_value: int = 1
         self.jump_speed: int = -10
         self.on_ground: bool = True
-        self.on_ground: bool = True
-        self.gravity: float = 0.01
+        self.gravity: float = 1
         self.jump_speed: int = -16
         self.dy: float = 0
 
