@@ -1,2 +1,2 @@
-WIDTH: int = 800
+WIDTH: int = 900
 HEIGHT: int = 600
