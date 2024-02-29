@@ -3,7 +3,7 @@ import pygame
 
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, x: float, y: float):
+    def __init__(self, x: int, y: int):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load(
             "Img/Character/PNG Sequences/Idle/0_Fallen_Angels_Idle_000.png"
@@ -13,9 +13,9 @@ class Player(pygame.sprite.Sprite):
         self.gravity_value: int = 1
         self.jump_speed: int = -10
         self.on_ground: bool = True
-        self.gravity: float = 1
+        self.gravity: int = 1
         self.jump_speed: int = -16
-        self.dy: float = 0
+        self.dy: int = 0
 
     def input(self):
         keys = pygame.key.get_pressed()

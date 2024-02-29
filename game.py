@@ -33,6 +33,7 @@ class Game:
             self.player.update()
             
             
+            
 
             pygame.display.update()
             self.clock.tick(60)
