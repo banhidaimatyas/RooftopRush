@@ -6,25 +6,32 @@ import pygame
 class Player(pygame.sprite.Sprite):
     def __init__(self, x: int, y: int):
         pygame.sprite.Sprite.__init__(self)
-        self.animations = {'Running': []}
+        self.animations: dict[str, list[pygame.Surface]] = {'Running': []}
         # self.image = pygame.image.load(
         #     "Img/Character/PNG Sequences/Idle/0_Fallen_Angels_Idle_000.png"
         # ).convert_alpha()
-        self.image = self.animations['Running'][1]
+        self.frame_index = 0
         self.import_character_assets()
-        self.image = pygame.transform.rotozoom(self.image, 0, 0.1)
-        self.frame_index: int = 0
-        self.animation_speed = 0.15
+        self.animation_speed: float = 0.15
+        self.status = "Running"
+        self.animate()
+        self.image = self.animations['Running'][4]
+        
+        
         self.rect: pygame.Rect = self.image.get_rect(topright=(x, y))
+        
+        self.setting_gravity()
+
+        
+
+    def setting_gravity(self):
         self.gravity_value: int = 1
         self.jump_speed: int = -10
         self.on_ground: bool = True
         self.gravity: int = 1
         self.jump_speed: int = -16
         self.dy: int = 0
-
-        self.status = "Running"
-
+    
     def animate(self):
         animation = self.animations[self.status]
         self.frame_index += self.animation_speed
