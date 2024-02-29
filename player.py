@@ -14,9 +14,9 @@ class Player(pygame.sprite.Sprite):
         self.frame_index = 0
         self.import_character_assets()
         self.animation_speed: float = CH_SPEED
-        self.status = "Running"
+        self.get_status()
         self.animate()
-        self.image = self.animations["Running"][4]
+        self.image = self.animations[self.status][0]
 
         self.rect: pygame.Rect = self.image.get_rect(topright=(x, y))
 
