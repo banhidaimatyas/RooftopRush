@@ -7,8 +7,11 @@ import sys
 
 
 class Game:
+    
+
     def __init__(self) -> None:
         pygame.init()
+        pygame.display.set_caption("Rooftop Rush")
         self.clock = pygame.time.Clock()
         self.bg()
         
@@ -21,16 +24,39 @@ class Game:
         self.bg_surf = pygame.transform.scale(self.bg_surf, (900, 600)) # pygame.transform.rotozoom(self.bg_surf, 0, 1.5)
         self.bg_rect: pygame.rect.Rect = self.bg_surf.get_rect(topleft=(0, 0))
 
+    def menu(self) -> None:
+        self.screen: pygame.Surface = pygame.display.set_mode((WIDTH, HEIGHT))
+        self.menu_surf = pygame.image.load("Img/Map/menu.jpg").convert_alpha()
+        self.menu_surf = pygame.transform.scale(self.menu_surf, (900, 600))
+        self.menu_rect: pygame.rect.Rect = self.bg_surf.get_rect(topleft=(0, 0))
+        self.game_font = pygame.font.SysFont('arial', 200, bold = True)
+        self.run_surf = self.game_font.render("Nyomd meg a SPACE-t az indításhoz!", True, 255,255,255)
+        self.run_rect = self.run_surf.get
+
+
+    
+
     def run(self) -> None:
-        while True:
+        running: bool = True
+        game_active: bool = True
+
+        if running is False:
+            pygame.quit()
+            sys.exit
+        while running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    pygame.quit()
-                    sys.exit
-            self.characters.add(self.player)
-            self.screen.blit(self.bg_surf, self.bg_rect)
-            self.characters.draw(self.screen)
-            self.player.update()
+                    running = False
+            
+            if game_active is True:
+                self.characters.add(self.player)
+                self.screen.blit(self.bg_surf, self.bg_rect)
+                self.characters.draw(self.screen)
+                self.player.update()
+            
+            else:
+                self.screen.blit(self.menu_surf, self.menu_rect)
+
             
             
             
