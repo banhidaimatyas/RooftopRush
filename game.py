@@ -31,11 +31,11 @@ class Game:
 
     def menu(self) -> None:
         self.screen: pygame.Surface = pygame.display.set_mode((WIDTH, HEIGHT))
-        self.menu_surf = pygame.image.load("Img/Map/menu.jpg").convert_alpha()
+        self.menu_surf = pygame.image.load("Img/Map/menu2.jpeg").convert_alpha()
         self.menu_surf = pygame.transform.scale(self.menu_surf, (900, 600))
         self.menu_rect: pygame.rect.Rect = self.bg_surf.get_rect(topleft=(0, 0))
         self.run_surf = self.game_font.render("Nyomd meg a SPACE-t az indításhoz!", True, self.font_colour)
-        self.run_rect = self.run_surf.get_rect(center=(WIDTH / 2, HEIGHT / 2))
+        self.run_rect = self.run_surf.get_rect(center=(WIDTH / 2, HEIGHT / 2 - 60))
 
 
     
