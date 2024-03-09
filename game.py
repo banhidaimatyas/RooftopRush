@@ -46,7 +46,7 @@ class Game:
 
         if running is False:
             pygame.quit()
-            sys.exit
+            sys.exit()
         while running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
