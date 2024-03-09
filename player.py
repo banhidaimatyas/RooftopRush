@@ -1,6 +1,6 @@
 from typing import Any
 from support import import_folder
-from setting import CH_SPEED
+from settings import CH_SPEED
 import pygame
 
 

@@ -1,5 +1,5 @@
 from typing import Any
-from setting import HEIGHT, WIDTH
+from settings import HEIGHT, WIDTH
 from player import Player
 
 import pygame
