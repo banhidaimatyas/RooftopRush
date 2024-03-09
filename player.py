@@ -18,7 +18,8 @@ class Player(pygame.sprite.Sprite):
         self.animate()
         self.image = self.animations[self.status][0]
 
-        self.rect: pygame.Rect = self.image.get_rect(topright=(x, y))
+        # self.rect: pygame.Rect = self.image.get_rect(topright=(x, y))
+        self.rect = pygame.Rect(x, y, 45, 63)
 
         self.setting_gravity()
 
