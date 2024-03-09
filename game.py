@@ -1,5 +1,5 @@
 from typing import Any
-from setting import HEIGHT, WIDTH
+from settings import HEIGHT, WIDTH
 from player import Player
 
 import pygame
@@ -46,7 +46,7 @@ class Game:
 
         if running is False:
             pygame.quit()
-            sys.exit
+            sys.exit()
         while running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:

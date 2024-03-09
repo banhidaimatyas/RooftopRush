@@ -1,6 +1,6 @@
 from typing import Any
 from support import import_folder
-from setting import CH_SPEED
+from settings import CH_SPEED
 import pygame
 
 
@@ -18,7 +18,8 @@ class Player(pygame.sprite.Sprite):
         self.animate()
         self.image = self.animations[self.status][0]
 
-        self.rect: pygame.Rect = self.image.get_rect(topright=(x, y))
+        # self.rect: pygame.Rect = self.image.get_rect(topright=(x, y))
+        self.rect = pygame.Rect(x, y, 45, 63)
 
         self.setting_gravity()
 
