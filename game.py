@@ -27,7 +27,7 @@ class Game:
 
         global x_pos_ground, y_pos_ground
         x_pos_ground = 0
-        y_pos_ground = 380
+        y_pos_ground = 450
         image_width = 900
         self.obstacles.add(Ground(self.ground_choosing(), x_pos_ground, y_pos_ground))
         self.obstacles.add(
@@ -74,6 +74,11 @@ class Game:
             x_pos_ground = 900
         x_pos_ground -= GAME_SPEED
 
+    def y_movement_collision(self) -> None:
+        if pygame.sprite.spritecollide(self.player, self.obstacles, False):
+            self.player.on_ground = True
+            self.player.dy = -1
+
     def run(self) -> None:
         running: bool = True
         game_active: bool = False
@@ -96,6 +101,7 @@ class Game:
                 self.ground_generating()
                 self.obstacles.draw(self.screen)
                 self.obstacles.update()
+                self.y_movement_collision()
 
             else:
                 self.screen.blit(self.menu_surf, self.menu_rect)
