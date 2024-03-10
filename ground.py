@@ -1,5 +1,6 @@
 import pygame
 from typing import Any
+from settings import GAME_SPEED
 
 
 class Ground(pygame.sprite.Sprite):
@@ -27,3 +28,4 @@ class Ground(pygame.sprite.Sprite):
     def update(self, *args: Any, **kwargs: Any) -> None:
         super().update(*args, **kwargs)
         self.destroy()
+        self.rect.x -= GAME_SPEED
