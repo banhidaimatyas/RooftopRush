@@ -9,6 +9,13 @@ class Ground(pygame.sprite.Sprite):
             self.image: pygame.Surface = pygame.image.load("Img/Platform/1")
         elif ground_type == "2": 
             self.image: pygame.Surface = pygame.image.load("Img/Platform/2")
-        
+        self.rect: pygame.Rect = pygame.Rect(x, y, 900, 600)
+    
+    def destroy(self):
+        if self.rect.right <= -1:
+            self.kill()
+    
     def update(self, *args: Any, **kwargs: Any) -> None:
         super().update(*args, **kwargs)
+        self.destroy()
+        
