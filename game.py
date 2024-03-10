@@ -1,5 +1,5 @@
 from typing import Any
-from settings import HEIGHT, WIDTH
+from settings import GAME_SPEED, HEIGHT, WIDTH
 from player import Player
 import random
 from ground import Ground
@@ -24,7 +24,19 @@ class Game:
         self.menu()
 
         self.obstacles: pygame.sprite.Group[Any] = pygame.sprite.Group()
-        self.ground: Ground = Ground("1", 900, 400)
+
+        global x_pos_ground, y_pos_ground
+        x_pos_ground = 0
+        y_pos_ground = 380
+        image_width = 900
+        self.obstacles.add(Ground(self.ground_choosing(), x_pos_ground, y_pos_ground))
+        self.obstacles.add(
+            Ground(
+                self.ground_choosing(),
+                image_width + x_pos_ground,
+                y_pos_ground,
+            )
+        )
 
     def bg(self) -> None:
         self.screen: pygame.Surface = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -48,6 +60,20 @@ class Game:
         ground_list: list[str] = ["1", "2", "3"]
         return random.choice(ground_list)
 
+    def ground_generating(self):
+        global x_pos_ground, y_pos_ground
+        image_width: int = 900
+        if x_pos_ground <= 0:
+            self.obstacles.add(
+                Ground(
+                    self.ground_choosing(),
+                    image_width + x_pos_ground,
+                    y_pos_ground,
+                )
+            )
+            x_pos_ground = 900
+        x_pos_ground -= GAME_SPEED
+
     def run(self) -> None:
         running: bool = True
         game_active: bool = False
@@ -59,8 +85,6 @@ class Game:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
-                if self.ground.rect.right < 100:
-                    self.obstacles.add(Ground(self.ground_choosing(), 900, 400))
 
             if game_active is True:
                 self.screen.blit(self.bg_surf, self.bg_rect)
@@ -69,9 +93,9 @@ class Game:
                 self.characters.draw(self.screen)
                 self.player.update()
 
-                self.obstacles.add(self.ground)
+                self.ground_generating()
                 self.obstacles.draw(self.screen)
-                self.ground.update()
+                self.obstacles.update()
 
             else:
                 self.screen.blit(self.menu_surf, self.menu_rect)
