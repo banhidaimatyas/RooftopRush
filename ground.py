@@ -5,8 +5,9 @@ from settings import GAME_SPEED
 
 class Ground(pygame.sprite.Sprite):
     def __init__(self, ground_type: str, x: int, y: int):
-        self.x_pos_ground: int = 0
-        self.y_pos_ground: int = 800
+        pygame.sprite.Sprite.__init__(self)
+        self.x_pos_ground: int = 900
+
         if ground_type == "1":
             self.image: pygame.Surface = pygame.image.load(
                 "Img/Platform/1.png"
@@ -23,9 +24,12 @@ class Ground(pygame.sprite.Sprite):
 
     def destroy(self):
         if self.rect.right <= -1:
+            self.x_pos_ground = 0
             self.kill()
+
 
     def update(self, *args: Any, **kwargs: Any) -> None:
         super().update(*args, **kwargs)
-        self.destroy()
         self.rect.x -= GAME_SPEED
+        self.x_pos_ground = self.rect.x
+        self.destroy()
