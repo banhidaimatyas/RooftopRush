@@ -85,7 +85,9 @@ class Game:
             and self.player.rect.y >= y_pos_ground
             and pygame.sprite.spritecollide(self.player, self.obstacles, False)
         ):
+            self.player.reset()
             self.game_active = False
+
 
     def run(self) -> None:
         running: bool = True
