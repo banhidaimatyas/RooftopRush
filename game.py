@@ -81,7 +81,7 @@ class Game:
 
     def x_movement_collision(self) -> None:
         if (
-            self.player.rect.x >= x_pos_ground
+            self.player.rect.x >= x_pos_ground-900
             and self.player.rect.y >= y_pos_ground
             and pygame.sprite.spritecollide(self.player, self.obstacles, False)
         ):
