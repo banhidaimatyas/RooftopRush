@@ -63,7 +63,7 @@ class Game:
     def ground_generating(self):
         global x_pos_ground, y_pos_ground
         image_width: int = 900
-        if x_pos_ground <= -200:
+        if x_pos_ground <= 0:
             self.obstacles.add(
                 Ground(
                     self.ground_choosing(),
