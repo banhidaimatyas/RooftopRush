@@ -22,7 +22,15 @@ class Player(pygame.sprite.Sprite):
         self.rect = pygame.Rect(x, y, 45, 63)
 
         self.setting_gravity()
-
+        self.x_pos: int = x
+        self.y_pos: int = y
+        self.reset()
+    
+    def reset(self):
+        self.x_pos = self.x_pos
+        self.y_pos = self.y_pos
+        self.rect = pygame.Rect(self.x_pos, self.y_pos, 45, 63)
+        
     def setting_gravity(self):
         self.gravity_value: int = 1
         self.jump_speed: int = -10

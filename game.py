@@ -79,9 +79,19 @@ class Game:
             self.player.on_ground = True
             self.player.dy = -1
 
+    def x_movement_collision(self) -> None:
+        if (
+            self.player.rect.x >= x_pos_ground-900
+            and self.player.rect.y >= y_pos_ground
+            and pygame.sprite.spritecollide(self.player, self.obstacles, False)
+        ):
+            self.player.reset()
+            self.game_active = False
+
+
     def run(self) -> None:
         running: bool = True
-        game_active: bool = False
+        self.game_active: bool = False
 
         if running is False:
             pygame.quit()
@@ -91,7 +101,7 @@ class Game:
                 if event.type == pygame.QUIT:
                     running = False
 
-            if game_active is True:
+            if self.game_active is True:
                 self.screen.blit(self.bg_surf, self.bg_rect)
 
                 self.characters.add(self.player)
@@ -103,13 +113,15 @@ class Game:
                 self.obstacles.update()
                 self.y_movement_collision()
 
+                self.x_movement_collision()
+
             else:
                 self.screen.blit(self.menu_surf, self.menu_rect)
                 self.screen.blit(self.run_surf, self.run_rect)
 
                 keys = pygame.key.get_pressed()
                 if keys[pygame.K_SPACE]:
-                    game_active = True
+                    self.game_active = True
 
             pygame.display.update()
             self.clock.tick(60)
