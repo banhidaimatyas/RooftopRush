@@ -1,5 +1,5 @@
 from typing import Any
-from settings import GAME_SPEED, HEIGHT, WIDTH
+from settings import GAME_SPEED, HEIGHT, WIDTH, CH_SPEED
 from player import Player
 import random
 from ground import Ground
@@ -19,9 +19,13 @@ class Game:
         self.characters: pygame.sprite.GroupSingle[Any] = pygame.sprite.GroupSingle()
         self.player: Player = Player(WIDTH // 2, HEIGHT // 2)
         self.game_font = pygame.font.Font("Img/Font/tarrget.ttf", 30)
+        self.score_font = pygame.font.SysFont("Arial", 30)
         self.font_colour = (255, 255, 255)
+        self.points: int = 0
+
 
         self.menu()
+        self.score()
 
         self.obstacles: pygame.sprite.Group[Any] = pygame.sprite.Group()
 
@@ -55,6 +59,17 @@ class Game:
             "Nyomd meg a SPACE-t az indításhoz!", True, self.font_colour
         )
         self.run_rect = self.run_surf.get_rect(center=(WIDTH / 2, HEIGHT / 2 - 60))
+
+    def score(self) -> None:
+        self.points += 1
+        if self.points % 100 == 0:
+            GAME_SPEED += 0.5
+            CH_SPEED += 0.002
+        
+        self.score_surf = self.score_font.render("Points: " + str(self.points), True, (255, 255, 255))
+        self.score_rect = self.score_surf.get_rect(topleft=(0, 0))
+        
+        
 
     def ground_choosing(self) -> str:
         ground_list: list[str] = ["1", "2", "3"]
@@ -114,6 +129,8 @@ class Game:
                 self.y_movement_collision()
 
                 self.x_movement_collision()
+                self.screen.blit(self.score_surf, self.score_rect)
+                
 
             else:
                 self.screen.blit(self.menu_surf, self.menu_rect)
