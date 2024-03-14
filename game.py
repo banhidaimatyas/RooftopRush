@@ -39,7 +39,18 @@ class Game:
             )
         )
 
-        self.obstacles.add(Enemy("1",450 ,450))
+       
+        self.enemy_timer = pygame.USEREVENT + 1
+        pygame.time.set_timer(self.enemy_timer, 5000)
+        
+
+    def enemy_choosing(self) -> None:
+        lista: list[str] = ["1","2"]
+        kiválasztott_elem: str = random.choice(lista)
+        if kiválasztott_elem == "1":
+            self.obstacles.add(Enemy(kiválasztott_elem, random.randint(400, 400), 350))
+        elif kiválasztott_elem == "2":
+            self.obstacles.add(Enemy(kiválasztott_elem, random.randint(400, 400), 400))
 
     def bg(self) -> None:
         self.screen: pygame.Surface = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -103,6 +114,7 @@ class Game:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
+                
 
             if self.game_active is True:
                 self.screen.blit(self.bg_surf, self.bg_rect)
@@ -117,6 +129,10 @@ class Game:
                 self.y_movement_collision()
 
                 self.x_movement_collision()
+
+                if event.type == self.enemy_timer:
+                    self.ground_choosing()
+                    self.obstacles.add(Enemy("1", random.randint(400, 400), 350))
 
             else:
                 self.screen.blit(self.menu_surf, self.menu_rect)

@@ -10,12 +10,19 @@ class Enemy(pygame.sprite.Sprite):
             self.image: pygame.Surface = pygame.image.load(
                 "Img/Enemy/bat1.png"
             ).convert_alpha()
+            self.image = pygame.transform.rotozoom(self.image, 0, 0.2)
+            self.rect: pygame.Rect = pygame.Rect(x, y, 393, 154)
         elif enemy_type == "2":
             self.image: pygame.Surface = pygame.image.load(
                 "Img/Enemy/szörny1.png"
             ).convert_alpha()
+            self.image = pygame.transform.rotozoom(self.image, 0, 1)
+            self.rect: pygame.Rect = pygame.Rect(x, y, 54, 71)
         
-        self.rect: pygame.Rect = pygame.Rect(x, y, 900, 450)
+        
+
+        
+
 
     def destroy(self):
         if self.rect.right <= -1:
