@@ -3,6 +3,7 @@ from settings import GAME_SPEED, HEIGHT, WIDTH
 from player import Player
 import random
 from ground import Ground
+from enemy import Enemy
 
 import pygame
 import sys
@@ -37,6 +38,8 @@ class Game:
                 y_pos_ground,
             )
         )
+
+        self.obstacles.add(Enemy("1",450 ,450))
 
     def bg(self) -> None:
         self.screen: pygame.Surface = pygame.display.set_mode((WIDTH, HEIGHT))
