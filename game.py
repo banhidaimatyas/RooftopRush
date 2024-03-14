@@ -21,18 +21,19 @@ class Game:
         self.game_font = pygame.font.Font("Img/Font/tarrget.ttf", 30)
         self.score_font = pygame.font.SysFont("Arial", 30)
         self.font_colour = (255, 255, 255)
-        self.points: int = 0
+        
 
 
         self.menu()
-        self.score()
+        # self.score()
 
         self.obstacles: pygame.sprite.Group[Any] = pygame.sprite.Group()
 
-        global x_pos_ground, y_pos_ground
+        global x_pos_ground, y_pos_ground, points
         x_pos_ground = 0
         y_pos_ground = 450
         image_width = 900
+        points = 0
         self.obstacles.add(Ground(self.ground_choosing(), x_pos_ground, y_pos_ground))
         self.obstacles.add(
             Ground(
@@ -61,13 +62,15 @@ class Game:
         self.run_rect = self.run_surf.get_rect(center=(WIDTH / 2, HEIGHT / 2 - 60))
 
     def score(self) -> None:
-        self.points += 1
-        if self.points % 100 == 0:
-            GAME_SPEED += 0.5
-            CH_SPEED += 0.002
+        global points 
+        self.game_speed = GAME_SPEED
+        points += 1
+        if points % 1000 == 0:
+            self.game_speed += 0.5
         
-        self.score_surf = self.score_font.render("Points: " + str(self.points), True, (255, 255, 255))
+        self.score_surf = self.score_font.render("Points: " + str(points), True, (255, 255, 255))
         self.score_rect = self.score_surf.get_rect(topleft=(0, 0))
+        self.screen.blit(self.score_surf, self.score_rect)
         
         
 
@@ -107,6 +110,7 @@ class Game:
     def run(self) -> None:
         running: bool = True
         self.game_active: bool = False
+        score: bool = False
 
         if running is False:
             pygame.quit()
@@ -117,6 +121,9 @@ class Game:
                     running = False
 
             if self.game_active is True:
+                score == True
+                
+
                 self.screen.blit(self.bg_surf, self.bg_rect)
 
                 self.characters.add(self.player)
@@ -129,8 +136,7 @@ class Game:
                 self.y_movement_collision()
 
                 self.x_movement_collision()
-                self.screen.blit(self.score_surf, self.score_rect)
-                
+                self.score()
 
             else:
                 self.screen.blit(self.menu_surf, self.menu_rect)
