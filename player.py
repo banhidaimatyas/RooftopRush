@@ -7,10 +7,14 @@ import pygame
 class Player(pygame.sprite.Sprite):
     def __init__(self, x: int, y: int):
         pygame.sprite.Sprite.__init__(self)
-        self.animations: dict[str, list[pygame.Surface]] = {"Running": []}
+        self.animations: dict[str, list[pygame.Surface]] = {
+            "Running": [],
+            "Jumping": [],
+        }
         # self.image = pygame.image.load(
         #     "Img/Character/PNG Sequences/Idle/0_Fallen_Angels_Idle_000.png"
         # ).convert_alpha()
+        self.setting_gravity()
         self.frame_index = 0
         self.import_character_assets()
         self.animation_speed: float = CH_SPEED
@@ -21,7 +25,6 @@ class Player(pygame.sprite.Sprite):
         # self.rect: pygame.Rect = self.image.get_rect(topright=(x, y))
         self.rect = pygame.Rect(x, y, 45, 63)
 
-        self.setting_gravity()
         self.x_pos: int = x
         self.y_pos: int = y
         self.reset()
@@ -47,7 +50,10 @@ class Player(pygame.sprite.Sprite):
         self.image = animation[int(self.frame_index)]
 
     def get_status(self):
-        self.status = "Running"
+        if self.on_ground == True:
+            self.status = "Running"
+        else:
+            self.status = "Jumping"
 
     def import_character_assets(self):
         character_path = "Img/Character/PNG Sequences/"
@@ -69,17 +75,9 @@ class Player(pygame.sprite.Sprite):
         self.on_ground: bool = False
         self.dy = self.jump_speed
 
-    def jumping_animation(self):
-        if self.on_ground == False:
-            self.image = pygame.image.load(
-                "Img/Character/PNG Sequences/Jump Loop/0_Fallen_Angels_Jump Loop_000.png"
-            ).convert_alpha()
-            self.image = pygame.transform.rotozoom(self.image, 0, 0.1)
-            
     def update(self, *args: Any, **kwargs: Any) -> None:
         super().update(*args, **kwargs)
         self.input()
         self.get_status()
         self.animate()
-        self.jumping_animation()
         self.apply_gravity()
