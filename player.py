@@ -25,12 +25,12 @@ class Player(pygame.sprite.Sprite):
         self.x_pos: int = x
         self.y_pos: int = y
         self.reset()
-    
+
     def reset(self):
         self.x_pos = self.x_pos
         self.y_pos = self.y_pos
         self.rect = pygame.Rect(self.x_pos, self.y_pos, 45, 63)
-        
+
     def setting_gravity(self):
         self.gravity_value: int = 1
         self.jump_speed: int = -10
@@ -69,9 +69,17 @@ class Player(pygame.sprite.Sprite):
         self.on_ground: bool = False
         self.dy = self.jump_speed
 
+    def jumping_animation(self):
+        if self.on_ground == False:
+            self.image = pygame.image.load(
+                "Img/Character/PNG Sequences/Jump Loop/0_Fallen_Angels_Jump Loop_000.png"
+            ).convert_alpha()
+            self.image = pygame.transform.rotozoom(self.image, 0, 0.1)
+            
     def update(self, *args: Any, **kwargs: Any) -> None:
         super().update(*args, **kwargs)
         self.input()
         self.get_status()
         self.animate()
+        self.jumping_animation()
         self.apply_gravity()
