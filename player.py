@@ -70,17 +70,18 @@ class Player(pygame.sprite.Sprite):
         keys = pygame.key.get_pressed()
         if keys[pygame.K_UP] and self.on_ground:
             self.on_ground = False
+            self.sliding = False
             self.jump()
         if keys[pygame.K_DOWN] and self.on_ground:
             self.sliding = True
-            self.slide()
+        else:
+            self.sliding = False
 
     def apply_gravity(self):
         self.dy += self.gravity
         self.rect.y += self.dy
 
     def jump(self):
-        self.on_ground: bool = False
         self.dy = self.jump_speed
 
     def update(self, *args: Any, **kwargs: Any) -> None:
