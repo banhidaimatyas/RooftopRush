@@ -10,11 +10,13 @@ class Player(pygame.sprite.Sprite):
         self.animations: dict[str, list[pygame.Surface]] = {
             "Running": [],
             "Jumping": [],
+            "Sliding": [],
         }
         # self.image = pygame.image.load(
         #     "Img/Character/PNG Sequences/Idle/0_Fallen_Angels_Idle_000.png"
         # ).convert_alpha()
         self.setting_gravity()
+        self.sliding: bool = False
         self.frame_index = 0
         self.import_character_assets()
         self.animation_speed: float = CH_SPEED
@@ -50,8 +52,11 @@ class Player(pygame.sprite.Sprite):
         self.image = animation[int(self.frame_index)]
 
     def get_status(self):
-        if self.on_ground == True:
-            self.status = "Running"
+        if self.on_ground:
+            if self.sliding:
+                self.status = "Sliding" 
+            else:
+                self.status = "Running"
         else:
             self.status = "Jumping"
 
