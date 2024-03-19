@@ -71,6 +71,9 @@ class Player(pygame.sprite.Sprite):
         if keys[pygame.K_UP] and self.on_ground:
             self.on_ground = False
             self.jump()
+        if keys[pygame.K_DOWN] and self.on_ground:
+            self.sliding = True
+            self.slide()
 
     def apply_gravity(self):
         self.dy += self.gravity
