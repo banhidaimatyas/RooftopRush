@@ -133,7 +133,6 @@ class Game:
 
                 self.x_movement_collision()
                 self.score()
-                pygame.draw.rect(self.screen, "gray", self.player.rect, 2)
 
             else:
                 self.screen.blit(self.menu_surf, self.menu_rect)

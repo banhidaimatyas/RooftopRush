@@ -92,8 +92,8 @@ class Player(pygame.sprite.Sprite):
         self.sliding = False
 
     def slide(self):
-        self.rect.height = self.ch_height // 2
-        self.rect.top = self.y_pos + self.ch_height // 2
+        self.rect.height = 47
+        self.rect.top = self.y_pos + 16
 
     def run(self):
         self.rect.height = self.ch_height
