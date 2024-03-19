@@ -1,6 +1,6 @@
 from typing import Any
 from support import import_folder
-from settings import CH_SPEED
+from settings import CH_POS_Y, CH_SPEED
 import pygame
 
 
@@ -15,6 +15,10 @@ class Player(pygame.sprite.Sprite):
         # self.image = pygame.image.load(
         #     "Img/Character/PNG Sequences/Idle/0_Fallen_Angels_Idle_000.png"
         # ).convert_alpha()
+
+        self.ch_height: int = 63
+        self.ch_width: int = 45
+
         self.setting_gravity()
         self.sliding: bool = False
         self.frame_index = 0
@@ -25,7 +29,7 @@ class Player(pygame.sprite.Sprite):
         self.image = self.animations[self.status][0]
 
         # self.rect: pygame.Rect = self.image.get_rect(topright=(x, y))
-        self.rect = pygame.Rect(x, y, 45, 63)
+        self.rect = pygame.Rect(x, y, self.ch_width, self.ch_height)
 
         self.x_pos: int = x
         self.y_pos: int = y
@@ -54,7 +58,7 @@ class Player(pygame.sprite.Sprite):
     def get_status(self):
         if self.on_ground:
             if self.sliding:
-                self.status = "Sliding" 
+                self.status = "Sliding"
             else:
                 self.status = "Running"
         else:
@@ -74,8 +78,11 @@ class Player(pygame.sprite.Sprite):
             self.jump()
         if keys[pygame.K_DOWN] and self.on_ground:
             self.sliding = True
+            self.slide()
         else:
             self.sliding = False
+        if not keys[pygame.K_UP] and keys[pygame.K_DOWN]:
+            self.run()
 
     def apply_gravity(self):
         self.dy += self.gravity
@@ -83,6 +90,13 @@ class Player(pygame.sprite.Sprite):
 
     def jump(self):
         self.dy = self.jump_speed
+
+    def slide(self):
+        self.rect.height = self.ch_height // 2
+
+    def run(self):
+        self.rect.height = self.ch_height
+        self.rect.top = CH_POS_Y
 
     def update(self, *args: Any, **kwargs: Any) -> None:
         super().update(*args, **kwargs)

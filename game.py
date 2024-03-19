@@ -1,5 +1,5 @@
 from typing import Any
-from settings import GAME_SPEED, HEIGHT, WIDTH, CH_SPEED
+from settings import CH_POS_X, CH_POS_Y, GAME_SPEED, HEIGHT, WIDTH, CH_SPEED
 from player import Player
 import random
 from ground import Ground
@@ -17,12 +17,10 @@ class Game:
         self.bg()
 
         self.characters: pygame.sprite.GroupSingle[Any] = pygame.sprite.GroupSingle()
-        self.player: Player = Player(WIDTH // 2, HEIGHT // 2)
+        self.player: Player = Player(CH_POS_X, CH_POS_Y)
         self.game_font = pygame.font.Font("Img/Font/tarrget.ttf", 30)
         self.score_font = pygame.font.SysFont("Arial", 30)
         self.font_colour = (255, 255, 255)
-        
-
 
         self.menu()
         # self.score()
@@ -62,17 +60,17 @@ class Game:
         self.run_rect = self.run_surf.get_rect(center=(WIDTH / 2, HEIGHT / 2 - 60))
 
     def score(self) -> None:
-        global points 
+        global points
         self.game_speed = GAME_SPEED
         points += 1
         if points % 1000 == 0:
             self.game_speed += 0.5
-        
-        self.score_surf = self.score_font.render("Points: " + str(points), True, (255, 255, 255))
+
+        self.score_surf = self.score_font.render(
+            "Points: " + str(points), True, (255, 255, 255)
+        )
         self.score_rect = self.score_surf.get_rect(topleft=(0, 0))
         self.screen.blit(self.score_surf, self.score_rect)
-        
-        
 
     def ground_choosing(self) -> str:
         ground_list: list[str] = ["1", "2", "3"]
@@ -99,13 +97,12 @@ class Game:
 
     def x_movement_collision(self) -> None:
         if (
-            self.player.rect.x >= x_pos_ground-900
+            self.player.rect.x >= x_pos_ground - 900
             and self.player.rect.y >= y_pos_ground
             and pygame.sprite.spritecollide(self.player, self.obstacles, False)
         ):
             self.player.reset()
             self.game_active = False
-
 
     def run(self) -> None:
         running: bool = True
@@ -122,7 +119,6 @@ class Game:
 
             if self.game_active is True:
                 score == True
-                
 
                 self.screen.blit(self.bg_surf, self.bg_rect)
 
@@ -137,6 +133,7 @@ class Game:
 
                 self.x_movement_collision()
                 self.score()
+                pygame.draw.rect(self.screen, "gray", self.player.rect, 2)
 
             else:
                 self.screen.blit(self.menu_surf, self.menu_rect)
