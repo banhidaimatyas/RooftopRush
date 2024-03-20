@@ -110,10 +110,14 @@ class Game:
         if running is False:
             pygame.quit()
             sys.exit()
+        
         while running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
+                if event.type == self.enemy_timer and self.game_active:
+                    self.ground_choosing()
+                    self.obstacles.add(Enemy(random.choice(["1","2"]), random.randint(900, 900), 350))
                 
 
             if self.game_active is True:
@@ -130,9 +134,7 @@ class Game:
 
                 self.x_movement_collision()
 
-                if event.type == self.enemy_timer:
-                    self.ground_choosing()
-                    self.obstacles.add(Enemy("1", random.randint(400, 400), 350))
+                
 
             else:
                 self.screen.blit(self.menu_surf, self.menu_rect)
