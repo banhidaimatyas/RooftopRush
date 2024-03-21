@@ -26,6 +26,8 @@ class Game:
         
         # self.score()
 
+        self.win = False
+
         self.obstacles: pygame.sprite.Group[Any] = pygame.sprite.Group()
 
         global x_pos_ground, y_pos_ground, points, highest
@@ -73,6 +75,10 @@ class Game:
         self.end_rect: pygame.rect.Rect = self.end_surf.get_rect(topleft=(0, 0))
         self.end_text_surf = self.game_font.render("Nyomd meg az [R]-t az újraindításhoz!", True, self.font_colour)
         self.end_text_rect = self.end_text_surf.get_rect(center=(WIDTH / 2, HEIGHT / 2 - 60))
+        # self.h_points_surf = self.game_font.render(f"Legmagasabb pontszám: {highest}", True, self.font_colour)
+        # self.h_points_rect = self.h_points_surf.get_rect(center=(WIDTH / 2, HEIGHT / 2 - 30))
+
+    def update_hiscore(self) -> None:
         self.h_points_surf = self.game_font.render(f"Legmagasabb pontszám: {highest}", True, self.font_colour)
         self.h_points_rect = self.h_points_surf.get_rect(center=(WIDTH / 2, HEIGHT / 2 - 30))
 
@@ -156,7 +162,7 @@ class Game:
                 self.x_movement_collision()
                 self.score()
 
-            else:
+            elif not self.win:
                 self.screen.blit(self.menu_surf, self.menu_rect)
                 self.screen.blit(self.run_surf, self.run_rect)
 
@@ -164,8 +170,10 @@ class Game:
                 if keys[pygame.K_SPACE]:
                     self.game_active = True
 
-            if points == 100:
-                self.end_screen()
+            if self.game_end:
+                # self.end_screen()
+                self.update_hiscore()
+                self.win = True
                 self.game_active = False
                 score == False
                 self.screen.blit(self.end_surf, self.end_rect)
