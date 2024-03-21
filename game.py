@@ -23,15 +23,17 @@ class Game:
         self.font_colour = (255, 255, 255)
 
         self.menu()
+        
         # self.score()
 
         self.obstacles: pygame.sprite.Group[Any] = pygame.sprite.Group()
 
-        global x_pos_ground, y_pos_ground, points
+        global x_pos_ground, y_pos_ground, points, highest
         x_pos_ground = 0
         y_pos_ground = 450
         image_width = 900
         points = 0
+        highest = 0
         self.obstacles.add(Ground(self.ground_choosing(), x_pos_ground, y_pos_ground))
         self.obstacles.add(
             Ground(
@@ -40,6 +42,7 @@ class Game:
                 y_pos_ground,
             )
         )
+        self.end_screen()
 
     def bg(self) -> None:
         self.screen: pygame.Surface = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -55,9 +58,23 @@ class Game:
         self.menu_surf = pygame.transform.scale(self.menu_surf, (900, 600))
         self.menu_rect: pygame.rect.Rect = self.bg_surf.get_rect(topleft=(0, 0))
         self.run_surf = self.game_font.render(
-            "Nyomd meg a SPACE-t az indításhoz!", True, self.font_colour
+            "Nyomd meg a [SPACE]-t az indításhoz!", True, self.font_colour
         )
         self.run_rect = self.run_surf.get_rect(center=(WIDTH / 2, HEIGHT / 2 - 60))
+
+    def end_screen(self) -> None:
+        self.game_end: bool = False
+        global highest, points
+        # points = 0
+        # highscore: int = highest
+        self.screen: pygame.Surface = pygame.display.set_mode((WIDTH, HEIGHT))
+        self.end_surf = pygame.image.load("Img/Map/end_screen.jpg").convert_alpha()
+        self.end_surf = pygame.transform.scale(self.end_surf, (900, 600))
+        self.end_rect: pygame.rect.Rect = self.end_surf.get_rect(topleft=(0, 0))
+        self.end_text_surf = self.game_font.render("Nyomd meg az [R]-t az újraindításhoz!", True, self.font_colour)
+        self.end_text_rect = self.end_text_surf.get_rect(center=(WIDTH / 2, HEIGHT / 2 - 60))
+        self.h_points_surf = self.game_font.render(f"Legmagasabb pontszám: {highest}", True, self.font_colour)
+        self.h_points_rect = self.h_points_surf.get_rect(center=(WIDTH / 2, HEIGHT / 2 - 30))
 
     def score(self) -> None:
         global points
@@ -66,8 +83,11 @@ class Game:
         if points % 1000 == 0:
             self.game_speed += 0.5
 
+        # if self.game_end:
+            
+
         self.score_surf = self.score_font.render(
-            "Points: " + str(points), True, (255, 255, 255)
+            "Pontszám: " + str(points), True, (255, 255, 255)
         )
         self.score_rect = self.score_surf.get_rect(topleft=(0, 0))
         self.screen.blit(self.score_surf, self.score_rect)
@@ -102,12 +122,14 @@ class Game:
             and pygame.sprite.spritecollide(self.player, self.obstacles, False)
         ):
             self.player.reset()
-            self.game_active = False
+            self.game_end = True
 
     def run(self) -> None:
         running: bool = True
         self.game_active: bool = False
         score: bool = False
+        
+        global points, highest
 
         if running is False:
             pygame.quit()
@@ -141,6 +163,20 @@ class Game:
                 keys = pygame.key.get_pressed()
                 if keys[pygame.K_SPACE]:
                     self.game_active = True
+
+            if points == 100:
+                self.end_screen()
+                self.game_active = False
+                score == False
+                self.screen.blit(self.end_surf, self.end_rect)
+                self.screen.blit(self.end_text_surf, self.end_text_rect)
+                keys = pygame.key.get_pressed()
+                if points >= highest:
+                    highest = points
+                self.screen.blit(self.h_points_surf, self.h_points_rect)
+                if keys[pygame.K_r]:
+                    self.game_active = True
+                    points = 0
 
             pygame.display.update()
             self.clock.tick(60)
