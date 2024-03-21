@@ -10,8 +10,8 @@ class Enemy(pygame.sprite.Sprite):
             self.image: pygame.Surface = pygame.image.load(
                 "Img/Enemy/bat1.png"
             ).convert_alpha()
-            self.image = pygame.transform.rotozoom(self.image, 0, 0.2)
-            self.rect: pygame.Rect = pygame.Rect(x, y, 393, 154)
+            self.image = pygame.transform.rotozoom(self.image, 0, 0.15)
+            self.rect: pygame.Rect = pygame.Rect(x, y, 70, 25)
         elif enemy_type == "2":
             self.image: pygame.Surface = pygame.image.load(
                 "Img/Enemy/szörny1.png"

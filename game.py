@@ -42,16 +42,10 @@ class Game:
 
        
         self.enemy_timer = pygame.USEREVENT + 1
-        pygame.time.set_timer(self.enemy_timer, 5000)
+        pygame.time.set_timer(self.enemy_timer, 1500)
         
 
-    def enemy_choosing(self) -> None:
-        lista: list[str] = ["1","2"]
-        kiválasztott_elem: str = random.choice(lista)
-        if kiválasztott_elem == "1":
-            self.obstacles.add(Enemy(kiválasztott_elem, random.randint(400, 400), 350))
-        elif kiválasztott_elem == "2":
-            self.obstacles.add(Enemy(kiválasztott_elem, random.randint(400, 400), 400))
+
 
     def bg(self) -> None:
         self.screen: pygame.Surface = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -122,9 +116,13 @@ class Game:
                 if event.type == pygame.QUIT:
                     running = False
                 if event.type == self.enemy_timer and self.game_active:
+                    enemy_type: str = random.choice(["1","2"])
                     self.ground_choosing()
-                    self.enemies.add(Enemy(random.choice(["1","2"]), random.randint(900, 900), 350))
-                
+                    if enemy_type == "1":
+                        self.enemies.add(Enemy(enemy_type, random.randint(900, 900), 380))
+                    else:                
+                        self.enemies.add(Enemy(enemy_type, random.randint(900, 900), 380))
+
 
             if self.game_active is True:
                 self.screen.blit(self.bg_surf, self.bg_rect)
