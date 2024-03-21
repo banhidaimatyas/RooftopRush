@@ -3,6 +3,7 @@ from settings import CH_POS_X, CH_POS_Y, GAME_SPEED, HEIGHT, WIDTH, CH_SPEED
 from player import Player
 import random
 from ground import Ground
+from enemy import Enemy
 
 import pygame
 import sys
@@ -27,7 +28,11 @@ class Game:
 
         self.obstacles: pygame.sprite.Group[Any] = pygame.sprite.Group()
 
+
+        self.enemies: pygame.sprite.Group[Any] = pygame.sprite.Group()
+
         global x_pos_ground, y_pos_ground, points
+
         x_pos_ground = 0
         y_pos_ground = 450
         image_width = 900
@@ -40,6 +45,13 @@ class Game:
                 y_pos_ground,
             )
         )
+
+       
+        self.enemy_timer = pygame.USEREVENT + 1
+        pygame.time.set_timer(self.enemy_timer, 1500)
+        
+
+
 
     def bg(self) -> None:
         self.screen: pygame.Surface = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -103,6 +115,11 @@ class Game:
         ):
             self.player.reset()
             self.game_active = False
+    
+    def enemy_check(self) -> None:
+        if pygame.sprite.spritecollide(self.player, self.enemies, False):
+            self.game_active = False
+
 
     def run(self) -> None:
         running: bool = True
@@ -112,10 +129,19 @@ class Game:
         if running is False:
             pygame.quit()
             sys.exit()
+        
         while running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
+                if event.type == self.enemy_timer and self.game_active:
+                    enemy_type: str = random.choice(["1","2"])
+                    self.ground_choosing()
+                    if enemy_type == "1":
+                        self.enemies.add(Enemy(enemy_type, random.randint(900, 900), 380))
+                    else:                
+                        self.enemies.add(Enemy(enemy_type, random.randint(900, 900), 380))
+
 
             if self.game_active is True:
                 score == True
@@ -129,10 +155,16 @@ class Game:
                 self.ground_generating()
                 self.obstacles.draw(self.screen)
                 self.obstacles.update()
+                self.enemies.draw(self.screen)
+                self.enemies.update()
                 self.y_movement_collision()
 
                 self.x_movement_collision()
+
+                self.enemy_check()
+
                 self.score()
+
 
             else:
                 self.screen.blit(self.menu_surf, self.menu_rect)
