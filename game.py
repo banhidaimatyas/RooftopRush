@@ -1,5 +1,5 @@
 from typing import Any
-from settings import CH_POS_X, CH_POS_Y, GAME_SPEED, HEIGHT, WIDTH, CH_SPEED
+from settings import CH_POS_X, CH_POS_Y, GAME_SPEED, HEIGHT, WIDTH
 from player import Player
 import random
 from ground import Ground
@@ -24,7 +24,7 @@ class Game:
         self.font_colour = (255, 255, 255)
 
         self.menu()
-        
+
         # self.score()
 
         self.win = False
@@ -50,12 +50,8 @@ class Game:
         )
         self.end_screen()
 
-       
         self.enemy_timer = pygame.USEREVENT + 1
         pygame.time.set_timer(self.enemy_timer, 1500)
-        
-
-
 
     def bg(self) -> None:
         self.screen: pygame.Surface = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -84,14 +80,22 @@ class Game:
         self.end_surf = pygame.image.load("Img/Map/end_screen.jpg").convert_alpha()
         self.end_surf = pygame.transform.scale(self.end_surf, (900, 600))
         self.end_rect: pygame.rect.Rect = self.end_surf.get_rect(topleft=(0, 0))
-        self.end_text_surf = self.game_font.render("Nyomd meg az [R]-t az újraindításhoz!", True, self.font_colour)
-        self.end_text_rect = self.end_text_surf.get_rect(center=(WIDTH / 2, HEIGHT / 2 - 60))
+        self.end_text_surf = self.game_font.render(
+            "Nyomd meg az [R]-t az újraindításhoz!", True, self.font_colour
+        )
+        self.end_text_rect = self.end_text_surf.get_rect(
+            center=(WIDTH / 2, HEIGHT / 2 - 60)
+        )
         # self.h_points_surf = self.game_font.render(f"Legmagasabb pontszám: {highest}", True, self.font_colour)
         # self.h_points_rect = self.h_points_surf.get_rect(center=(WIDTH / 2, HEIGHT / 2 - 30))
 
     def update_hiscore(self) -> None:
-        self.h_points_surf = self.game_font.render(f"Legmagasabb pontszám: {highest}", True, self.font_colour)
-        self.h_points_rect = self.h_points_surf.get_rect(center=(WIDTH / 2, HEIGHT / 2 - 30))
+        self.h_points_surf = self.game_font.render(
+            f"Legmagasabb pontszám: {highest}", True, self.font_colour
+        )
+        self.h_points_rect = self.h_points_surf.get_rect(
+            center=(WIDTH / 2, HEIGHT / 2 - 30)
+        )
 
     def score(self) -> None:
         global points
@@ -101,7 +105,6 @@ class Game:
             self.game_speed += 0.5
 
         # if self.game_end:
-            
 
         self.score_surf = self.score_font.render(
             "Pontszám: " + str(points), True, (255, 255, 255)
@@ -140,38 +143,37 @@ class Game:
         ):
             self.player.reset()
 
-    
     def enemy_check(self) -> None:
         if pygame.sprite.spritecollide(self.player, self.enemies, False):
             self.game_end = True
 
+    def enemy_init(self) -> None:
+        enemy_type: str = random.choice(["1", "2"])
+        self.enemy: Enemy = Enemy(enemy_type, random.randint(900, 900), 380)
+        self.ground_choosing()
+        if enemy_type == "1":
+            self.enemies.add(self.enemy)
+        else:
+            self.enemies.add(self.enemy)
 
     def run(self) -> None:
         running: bool = True
         self.game_active: bool = False
-        score: bool = False
-        
+
         global points, highest
 
         if running is False:
             pygame.quit()
             sys.exit()
-        
+
         while running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
                 if event.type == self.enemy_timer and self.game_active:
-                    enemy_type: str = random.choice(["1","2"])
-                    self.ground_choosing()
-                    if enemy_type == "1":
-                        self.enemies.add(Enemy(enemy_type, random.randint(900, 900), 380))
-                    else:                
-                        self.enemies.add(Enemy(enemy_type, random.randint(900, 900), 380))
-
+                    self.enemy_init()
 
             if self.game_active is True:
-                score == True
 
                 self.screen.blit(self.bg_surf, self.bg_rect)
 
@@ -192,7 +194,6 @@ class Game:
 
                 self.score()
 
-
             elif not self.win:
 
                 self.screen.blit(self.menu_surf, self.menu_rect)
@@ -207,7 +208,6 @@ class Game:
                 self.update_hiscore()
                 self.win = True
                 self.game_active = False
-                score == False
                 self.screen.blit(self.end_surf, self.end_rect)
                 self.screen.blit(self.end_text_surf, self.end_text_rect)
                 keys = pygame.key.get_pressed()
@@ -215,7 +215,9 @@ class Game:
                     highest = points
                 self.screen.blit(self.h_points_surf, self.h_points_rect)
                 if keys[pygame.K_r]:
+                    self.enemy.kill()
                     self.game_active = True
+                    self.game_end = False
                     points = 0
 
             pygame.display.update()
