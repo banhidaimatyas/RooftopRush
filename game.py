@@ -1,5 +1,5 @@
 from typing import Any
-from settings import CH_POS_X, CH_POS_Y, GAME_SPEED, HEIGHT, WIDTH, CH_SPEED
+from settings import CH_POS_X, CH_POS_Y, GAME_SPEED, HEIGHT, WIDTH
 from player import Player
 import random
 from ground import Ground
@@ -149,7 +149,6 @@ class Game:
     def run(self) -> None:
         running: bool = True
         self.game_active: bool = False
-        score: bool = False
         
         global points, highest
 
@@ -171,7 +170,7 @@ class Game:
 
 
             if self.game_active is True:
-                score == True
+
 
                 self.screen.blit(self.bg_surf, self.bg_rect)
 
@@ -207,7 +206,6 @@ class Game:
                 self.update_hiscore()
                 self.win = True
                 self.game_active = False
-                score == False
                 self.screen.blit(self.end_surf, self.end_rect)
                 self.screen.blit(self.end_text_surf, self.end_text_rect)
                 keys = pygame.key.get_pressed()
