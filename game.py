@@ -147,6 +147,15 @@ class Game:
         if pygame.sprite.spritecollide(self.player, self.enemies, False):
             self.game_end = True
 
+    def enemy_init(self) -> None:
+        enemy_type: str = random.choice(["1", "2"])
+        self.enemy: Enemy = Enemy(enemy_type, random.randint(900, 900), 380)
+        self.ground_choosing()
+        if enemy_type == "1":
+            self.enemies.add(self.enemy)
+        else:
+            self.enemies.add(self.enemy)
+
     def run(self) -> None:
         running: bool = True
         self.game_active: bool = False
@@ -162,16 +171,7 @@ class Game:
                 if event.type == pygame.QUIT:
                     running = False
                 if event.type == self.enemy_timer and self.game_active:
-                    enemy_type: str = random.choice(["1", "2"])
-                    self.ground_choosing()
-                    if enemy_type == "1":
-                        self.enemies.add(
-                            Enemy(enemy_type, random.randint(900, 900), 380)
-                        )
-                    else:
-                        self.enemies.add(
-                            Enemy(enemy_type, random.randint(900, 900), 380)
-                        )
+                    self.enemy_init()
 
             if self.game_active is True:
 
@@ -215,7 +215,9 @@ class Game:
                     highest = points
                 self.screen.blit(self.h_points_surf, self.h_points_rect)
                 if keys[pygame.K_r]:
+                    self.enemy.kill()
                     self.game_active = True
+                    self.game_end = False
                     points = 0
 
             pygame.display.update()
