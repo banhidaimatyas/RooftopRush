@@ -82,7 +82,7 @@ class Player(pygame.sprite.Sprite):
             keys[pygame.K_UP]
             and not self.on_ground
             and self.jumping == 1
-            and self.dy >= 0
+            and self.dy >= -5
             and not keys[pygame.K_DOWN]
         ):
             self.second_jump()
@@ -107,8 +107,6 @@ class Player(pygame.sprite.Sprite):
 
     def second_jump(self):
         self.dy = -15
-        self.on_ground = False
-        self.sliding = False
         self.jumping = 2
 
     def slide(self):
