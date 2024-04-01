@@ -33,9 +33,9 @@ class Enemy(pygame.sprite.Sprite):
         self.image = self.surfaces[self.surf_index]
 
     def shrinking_bat_images(self):
-        if self.enemy_type == '1':
+        if self.enemy_type == "1":
             self.image = pygame.transform.rotozoom(self.image, 0, 0.15)
-    
+
     def destroy(self):
         if self.rect.right <= -1:
             self.kill()
@@ -44,5 +44,5 @@ class Enemy(pygame.sprite.Sprite):
         super().update(*args, **kwargs)
         self.changing_images()
         self.shrinking_bat_images()
-        self.rect.x -= GAME_SPEED+2
+        self.rect.x -= GAME_SPEED + 2
         self.destroy()

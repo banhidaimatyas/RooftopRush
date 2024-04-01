@@ -38,7 +38,9 @@ class Game:
         self.image_width: int = 900
         self.points: int = 0
         self.highest: int = 0
-        self.obstacles.add(Ground(self.ground_choosing(), self.x_pos_ground, self.y_pos_ground))
+        self.obstacles.add(
+            Ground(self.ground_choosing(), self.x_pos_ground, self.y_pos_ground)
+        )
         self.obstacles.add(
             Ground(
                 self.ground_choosing(),
@@ -170,7 +172,6 @@ class Game:
     def run(self) -> None:
         running: bool = True
         self.game_active: bool = False
-
 
         if running is False:
             pygame.quit()
