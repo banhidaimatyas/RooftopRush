@@ -196,6 +196,7 @@ class Game:
                 self.x_movement_collision()
 
                 self.enemy_check()
+                self.double_jump_check()
 
                 self.score()
 

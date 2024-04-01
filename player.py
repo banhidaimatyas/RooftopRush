@@ -80,6 +80,7 @@ class Player(pygame.sprite.Sprite):
 
         elif (
             keys[pygame.K_UP]
+            and self.double_jump_activated
             and not self.on_ground
             and self.jumping == 1
             and self.dy >= -5
