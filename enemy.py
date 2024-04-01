@@ -25,18 +25,20 @@ class Enemy(pygame.sprite.Sprite):
             self.image = pygame.transform.rotozoom(self.image, 0, 1)
             self.rect: pygame.Rect = pygame.Rect(x, y, 54, 71)
 
-    
-    def destroy(self):
-        if self.rect.right <= -1:
-            self.kill()
-
-    def update(self, *args: Any, **kwargs: Any) -> None:
-        super().update(*args, **kwargs)
+    def changing_images(self):
         self.counter += 1
         if self.counter % 7 == 0:
             self.surf_index += 1
         if self.surf_index > len(self.surfaces) - 1:
             self.surf_index = 0
         self.image = self.surfaces[self.surf_index]
+
+    def destroy(self):
+        if self.rect.right <= -1:
+            self.kill()
+
+    def update(self, *args: Any, **kwargs: Any) -> None:
+        super().update(*args, **kwargs)
+        self.changing_images()
         self.rect.x -= GAME_SPEED
         self.destroy()
