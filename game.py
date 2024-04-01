@@ -22,7 +22,7 @@ class Game:
         self.game_font = pygame.font.Font("Img/Font/tarrget.ttf", 30)
         self.score_font = pygame.font.SysFont("Arial", 30)
         self.font_colour = (255, 255, 255)
-
+        self.sounds_init()
         self.menu()
 
         # self.score()
@@ -52,6 +52,15 @@ class Game:
 
         self.enemy_timer = pygame.USEREVENT + 1
         pygame.time.set_timer(self.enemy_timer, 1500)
+
+    def sounds_init(self):
+        pygame.mixer.init()
+        pygame.mixer.music.load("Music/menu.wav")
+        pygame.mixer.music.set_volume(0.01)
+        self.losing = pygame.mixer.Sound("Music/losing.wav")
+        self.losing.set_volume(0.025)
+        self.start = pygame.mixer.Sound("Music/start.wav")
+        self.start.set_volume(0.1)
 
     def bg(self) -> None:
         self.screen: pygame.Surface = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -146,6 +155,8 @@ class Game:
     def enemy_check(self) -> None:
         if pygame.sprite.spritecollide(self.player, self.enemies, False):
             self.game_end = True
+            pygame.mixer.Sound.play(self.losing)
+            pygame.mixer.music.pause()
 
     def enemy_init(self) -> None:
         enemy_type: str = random.choice(["1", "2"])
@@ -202,6 +213,8 @@ class Game:
                 keys = pygame.key.get_pressed()
                 if keys[pygame.K_SPACE]:
                     self.game_active = True
+                    pygame.mixer.Sound.play(self.start)
+                    pygame.mixer.music.play()
 
             if self.game_end:
                 # self.end_screen()
@@ -215,6 +228,8 @@ class Game:
                     highest = points
                 self.screen.blit(self.h_points_surf, self.h_points_rect)
                 if keys[pygame.K_r]:
+                    pygame.mixer.Sound.play(self.start)
+                    pygame.mixer.music.unpause()
                     self.enemy.kill()
                     self.game_active = True
                     self.game_end = False
