@@ -55,7 +55,7 @@ class Game:
 
     def sounds_init(self):
         pygame.mixer.init()
-        pygame.mixer.music.load("Music/menu.wav")
+        pygame.mixer.music.load("Music/background.wav")
         pygame.mixer.music.set_volume(0.01)
         self.losing = pygame.mixer.Sound("Music/losing.wav")
         self.losing.set_volume(0.025)
