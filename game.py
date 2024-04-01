@@ -158,7 +158,7 @@ class Game:
 
     def double_jump_check(self):
         global points
-        if points > 10:
+        if points > 1500:
             self.player.double_jump_activated = True
 
     def run(self) -> None:
