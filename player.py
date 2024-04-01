@@ -12,22 +12,19 @@ class Player(pygame.sprite.Sprite):
             "Jumping": [],
             "Sliding": [],
         }
+        self.double_jump_activated: bool = False
+        self.sliding: bool = False
+        self.frame_index = 0
+        self.animation_speed: float = CH_SPEED
+        self.setting_gravity()
+        self.import_character_assets()
+        self.get_status()
+        self.animate()
 
         self.ch_height: int = 63
         self.ch_width: int = 45
-
-        self.setting_gravity()
-        self.sliding: bool = False
-        self.frame_index = 0
-        self.import_character_assets()
-        self.animation_speed: float = CH_SPEED
-        self.get_status()
-        self.animate()
         self.image = self.animations[self.status][0]
-
         self.rect = pygame.Rect(x, y, self.ch_width, self.ch_height)
-
-        self.double_jump_activated: bool = False
 
         self.x_pos: int = x
         self.y_pos: int = y
