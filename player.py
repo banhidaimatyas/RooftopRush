@@ -49,6 +49,7 @@ class Player(pygame.sprite.Sprite):
         self.gravity: int = 1
         self.jump_speed: int = -16
         self.dy: int = 0
+        self.jumping: int = 0  # jumping status
 
     def animate(self):
         animation = self.animations[self.status]
@@ -76,6 +77,16 @@ class Player(pygame.sprite.Sprite):
         keys = pygame.key.get_pressed()
         if keys[pygame.K_UP] and self.on_ground and not keys[pygame.K_DOWN]:
             self.jump()
+
+        elif (
+            keys[pygame.K_UP]
+            and not self.on_ground
+            and self.jumping == 1
+            and self.dy >= 0
+            and not keys[pygame.K_DOWN]
+        ):
+            self.second_jump()
+
         if keys[pygame.K_DOWN] and self.on_ground:
             self.sliding = True
             self.slide()
@@ -92,6 +103,13 @@ class Player(pygame.sprite.Sprite):
         self.dy = self.jump_speed
         self.on_ground = False
         self.sliding = False
+        self.jumping = 1
+
+    def second_jump(self):
+        self.dy = -15
+        self.on_ground = False
+        self.sliding = False
+        self.jumping = 2
 
     def slide(self):
         self.rect.height = 47
