@@ -44,5 +44,5 @@ class Enemy(pygame.sprite.Sprite):
         super().update(*args, **kwargs)
         self.changing_images()
         self.shrinking_bat_images()
-        self.rect.x -= GAME_SPEED
+        self.rect.x -= GAME_SPEED+2
         self.destroy()
