@@ -31,6 +31,8 @@ class Player(pygame.sprite.Sprite):
         # self.rect: pygame.Rect = self.image.get_rect(topright=(x, y))
         self.rect = pygame.Rect(x, y, self.ch_width, self.ch_height)
 
+        self.double_jump_activated: bool = False
+
         self.x_pos: int = x
         self.y_pos: int = y
         self.reset()

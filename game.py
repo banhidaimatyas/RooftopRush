@@ -156,6 +156,11 @@ class Game:
         else:
             self.enemies.add(self.enemy)
 
+    def double_jump_check(self):
+        global points
+        if points > 10:
+            self.player.double_jump_activated = True
+
     def run(self) -> None:
         running: bool = True
         self.game_active: bool = False
