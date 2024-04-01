@@ -31,21 +31,19 @@ class Game:
 
         self.obstacles: pygame.sprite.Group[Any] = pygame.sprite.Group()
 
-        global x_pos_ground, y_pos_ground, points, highest
-
         self.enemies: pygame.sprite.Group[Any] = pygame.sprite.Group()
 
-        x_pos_ground = 0
-        y_pos_ground = 450
-        image_width = 900
-        points = 0
-        highest = 0
-        self.obstacles.add(Ground(self.ground_choosing(), x_pos_ground, y_pos_ground))
+        self.x_pos_ground: int = 0
+        self.y_pos_ground: int = 450
+        self.image_width: int = 900
+        self.points: int = 0
+        self.highest: int = 0
+        self.obstacles.add(Ground(self.ground_choosing(), self.x_pos_ground, self.y_pos_ground))
         self.obstacles.add(
             Ground(
                 self.ground_choosing(),
-                image_width + x_pos_ground,
-                y_pos_ground,
+                self.image_width + self.x_pos_ground,
+                self.y_pos_ground,
             )
         )
         self.end_screen()
@@ -82,7 +80,6 @@ class Game:
 
     def end_screen(self) -> None:
         self.game_end: bool = False
-        global highest, points
         # points = 0
         # highscore: int = highest
         self.screen: pygame.Surface = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -100,23 +97,22 @@ class Game:
 
     def update_hiscore(self) -> None:
         self.h_points_surf = self.game_font.render(
-            f"Legmagasabb pontszám: {highest}", True, self.font_colour
+            f"Legmagasabb pontszám: {self.highest}", True, self.font_colour
         )
         self.h_points_rect = self.h_points_surf.get_rect(
             center=(WIDTH / 2, HEIGHT / 2 - 30)
         )
 
     def score(self) -> None:
-        global points
         self.game_speed = GAME_SPEED
-        points += 1
-        if points % 1000 == 0:
+        self.points += 1
+        if self.points % 1000 == 0:
             self.game_speed += 0.5
 
         # if self.game_end:
 
         self.score_surf = self.score_font.render(
-            "Pontszám: " + str(points), True, (255, 255, 255)
+            "Pontszám: " + str(self.points), True, (255, 255, 255)
         )
         self.score_rect = self.score_surf.get_rect(topleft=(0, 0))
         self.screen.blit(self.score_surf, self.score_rect)
@@ -126,18 +122,17 @@ class Game:
         return random.choice(ground_list)
 
     def ground_generating(self):
-        global x_pos_ground, y_pos_ground
         image_width: int = 900
-        if x_pos_ground <= 0:
+        if self.x_pos_ground <= 0:
             self.obstacles.add(
                 Ground(
                     self.ground_choosing(),
-                    image_width + x_pos_ground,
-                    y_pos_ground,
+                    image_width + self.x_pos_ground,
+                    self.y_pos_ground,
                 )
             )
-            x_pos_ground = 900
-        x_pos_ground -= GAME_SPEED
+            self.x_pos_ground = 900
+        self.x_pos_ground -= GAME_SPEED
 
     def y_movement_collision(self) -> None:
         if pygame.sprite.spritecollide(self.player, self.obstacles, False):
@@ -146,8 +141,8 @@ class Game:
 
     def x_movement_collision(self) -> None:
         if (
-            self.player.rect.x >= x_pos_ground - 900
-            and self.player.rect.y >= y_pos_ground
+            self.player.rect.x >= self.x_pos_ground - 900
+            and self.player.rect.y >= self.y_pos_ground
             and pygame.sprite.spritecollide(self.player, self.obstacles, False)
         ):
             self.player.reset()
@@ -168,15 +163,14 @@ class Game:
             self.enemies.add(self.enemy)
 
     def double_jump_check(self):
-        global points
-        if points > 1500:
+
+        if self.points > 1500:
             self.player.double_jump_activated = True
 
     def run(self) -> None:
         running: bool = True
         self.game_active: bool = False
 
-        global points, highest
 
         if running is False:
             pygame.quit()
@@ -230,8 +224,8 @@ class Game:
                 self.screen.blit(self.end_surf, self.end_rect)
                 self.screen.blit(self.end_text_surf, self.end_text_rect)
                 keys = pygame.key.get_pressed()
-                if points >= highest:
-                    highest = points
+                if self.points >= self.highest:
+                    self.highest = self.points
                 self.screen.blit(self.h_points_surf, self.h_points_rect)
                 if keys[pygame.K_r]:
                     pygame.mixer.Sound.play(self.start)
@@ -239,7 +233,7 @@ class Game:
                     self.enemy.kill()
                     self.game_active = True
                     self.game_end = False
-                    points = 0
+                    self.points = 0
 
             pygame.display.update()
             self.clock.tick(60)
