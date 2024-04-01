@@ -12,9 +12,6 @@ class Player(pygame.sprite.Sprite):
             "Jumping": [],
             "Sliding": [],
         }
-        # self.image = pygame.image.load(
-        #     "Img/Character/PNG Sequences/Idle/0_Fallen_Angels_Idle_000.png"
-        # ).convert_alpha()
 
         self.ch_height: int = 63
         self.ch_width: int = 45
@@ -28,7 +25,6 @@ class Player(pygame.sprite.Sprite):
         self.animate()
         self.image = self.animations[self.status][0]
 
-        # self.rect: pygame.Rect = self.image.get_rect(topright=(x, y))
         self.rect = pygame.Rect(x, y, self.ch_width, self.ch_height)
 
         self.double_jump_activated: bool = False

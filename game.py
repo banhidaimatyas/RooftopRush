@@ -65,9 +65,7 @@ class Game:
     def bg(self) -> None:
         self.screen: pygame.Surface = pygame.display.set_mode((WIDTH, HEIGHT))
         self.bg_surf = pygame.image.load("Img/Map/background.jpg").convert_alpha()
-        self.bg_surf = pygame.transform.scale(
-            self.bg_surf, (900, 600)
-        )  # pygame.transform.rotozoom(self.bg_surf, 0, 1.5)
+        self.bg_surf = pygame.transform.scale(self.bg_surf, (900, 600))
         self.bg_rect: pygame.rect.Rect = self.bg_surf.get_rect(topleft=(0, 0))
 
     def menu(self) -> None:
@@ -82,8 +80,7 @@ class Game:
 
     def end_screen(self) -> None:
         self.game_end: bool = False
-        # points = 0
-        # highscore: int = highest
+
         self.screen: pygame.Surface = pygame.display.set_mode((WIDTH, HEIGHT))
         self.end_surf = pygame.image.load("Img/Map/end_screen.jpg").convert_alpha()
         self.end_surf = pygame.transform.scale(self.end_surf, (900, 600))
@@ -94,8 +91,6 @@ class Game:
         self.end_text_rect = self.end_text_surf.get_rect(
             center=(WIDTH / 2, HEIGHT / 2 - 60)
         )
-        # self.h_points_surf = self.game_font.render(f"Legmagasabb pontszám: {highest}", True, self.font_colour)
-        # self.h_points_rect = self.h_points_surf.get_rect(center=(WIDTH / 2, HEIGHT / 2 - 30))
 
     def update_hiscore(self) -> None:
         self.h_points_surf = self.game_font.render(
@@ -110,8 +105,6 @@ class Game:
         self.points += 1
         if self.points % 1000 == 0:
             self.game_speed += 0.5
-
-        # if self.game_end:
 
         self.score_surf = self.score_font.render(
             "Pontszám: " + str(self.points), True, (255, 255, 255)
@@ -218,7 +211,6 @@ class Game:
                     pygame.mixer.music.play()
 
             if self.game_end:
-                # self.end_screen()
                 self.update_hiscore()
                 self.win = True
                 self.game_active = False
