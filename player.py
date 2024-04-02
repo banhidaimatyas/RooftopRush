@@ -88,9 +88,15 @@ class Player(pygame.sprite.Sprite):
             self.run()
         if keys[pygame.K_LEFT] and not keys[pygame.K_RIGHT]:
             self.horizontal_movement(-3)
+            self.changing_speed(False, True)
         if keys[pygame.K_RIGHT] and not keys[pygame.K_LEFT]:
             self.horizontal_movement(2)
+            self.changing_speed(True, False)
+        if not keys[pygame.K_LEFT] and not keys[pygame.K_RIGHT]:
+            self.changing_speed(False, False)
 
+    def changing_speed(self, getting_faster: bool, slowing_down: bool):
+        
 
     def horizontal_movement(self, x: int):
         self.rect.x += x
