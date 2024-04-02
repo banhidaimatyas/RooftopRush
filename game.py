@@ -47,6 +47,8 @@ class Game:
         pygame.mixer.init()
         pygame.mixer.music.load("Music/background.wav")
         pygame.mixer.music.set_volume(0.01)
+        self.powerup = pygame.mixer.Sound("Music/powerup.wav")
+        self.powerup.set_volume(0.01)
         self.losing = pygame.mixer.Sound("Music/losing.wav")
         self.losing.set_volume(0.025)
         self.start = pygame.mixer.Sound("Music/start.wav")
@@ -154,7 +156,8 @@ class Game:
             self.enemies.add(self.enemy)
 
     def double_jump_check(self):
-
+        if self.points == 1500:
+            pygame.mixer.Sound.play(self.powerup)
         if self.points > 1500:
             self.player.double_jump_activated = True
 
