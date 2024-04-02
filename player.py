@@ -12,26 +12,19 @@ class Player(pygame.sprite.Sprite):
             "Jumping": [],
             "Sliding": [],
         }
-        # self.image = pygame.image.load(
-        #     "Img/Character/PNG Sequences/Idle/0_Fallen_Angels_Idle_000.png"
-        # ).convert_alpha()
+        self.double_jump_activated: bool = False
+        self.sliding: bool = False
+        self.frame_index: float = 0
+        self.animation_speed: float = CH_SPEED
+        self.setting_gravity()
+        self.import_character_assets()
+        self.get_status()
+        self.animate()
 
         self.ch_height: int = 63
         self.ch_width: int = 45
-
-        self.setting_gravity()
-        self.sliding: bool = False
-        self.frame_index = 0
-        self.import_character_assets()
-        self.animation_speed: float = CH_SPEED
-        self.get_status()
-        self.animate()
-        self.image = self.animations[self.status][0]
-
-        # self.rect: pygame.Rect = self.image.get_rect(topright=(x, y))
+        self.image: pygame.Surface = self.animations[self.status][0]
         self.rect = pygame.Rect(x, y, self.ch_width, self.ch_height)
-
-        self.double_jump_activated: bool = False
 
         self.x_pos: int = x
         self.y_pos: int = y
@@ -40,11 +33,9 @@ class Player(pygame.sprite.Sprite):
     def reset(self):
         self.x_pos = self.x_pos
         self.y_pos = self.y_pos
-        self.rect = pygame.Rect(self.x_pos, self.y_pos, 45, 63)
+        self.rect: pygame.Rect = pygame.Rect(self.x_pos, self.y_pos, 45, 63)
 
     def setting_gravity(self):
-        self.gravity_value: int = 1
-        self.jump_speed: int = -10
         self.on_ground: bool = True
         self.gravity: int = 1
         self.jump_speed: int = -16
@@ -52,29 +43,29 @@ class Player(pygame.sprite.Sprite):
         self.jumping: int = 0  # jumping status
 
     def animate(self):
-        animation = self.animations[self.status]
+        animation: list[pygame.Surface] = self.animations[self.status]
         self.frame_index += self.animation_speed
         if self.frame_index >= len(animation):
-            self.frame_index = 0
-        self.image = animation[int(self.frame_index)]
+            self.frame_index: float = 0
+        self.image: pygame.Surface = animation[int(self.frame_index)]
 
     def get_status(self):
         if self.on_ground:
             if self.sliding:
-                self.status = "Sliding"
+                self.status: str = "Sliding"
             else:
-                self.status = "Running"
+                self.status: str = "Running"
         else:
-            self.status = "Jumping"
+            self.status: str = "Jumping"
 
     def import_character_assets(self):
         character_path = "Img/Character/PNG Sequences/"
         for animation in self.animations.keys():
-            full_path = character_path + animation
+            full_path: str = character_path + animation
             self.animations[animation] = import_folder(full_path)
 
     def input(self):
-        keys = pygame.key.get_pressed()
+        keys: pygame.key.ScancodeWrapper = pygame.key.get_pressed()
         if keys[pygame.K_UP] and self.on_ground and not keys[pygame.K_DOWN]:
             self.jump()
 
@@ -89,10 +80,10 @@ class Player(pygame.sprite.Sprite):
             self.second_jump()
 
         if keys[pygame.K_DOWN] and self.on_ground:
-            self.sliding = True
+            self.sliding: bool = True
             self.slide()
         else:
-            self.sliding = False
+            self.sliding: bool = False
         if not keys[pygame.K_UP] and not keys[pygame.K_DOWN] and self.on_ground:
             self.run()
 
@@ -101,14 +92,14 @@ class Player(pygame.sprite.Sprite):
         self.rect.y += self.dy
 
     def jump(self):
-        self.dy = self.jump_speed
-        self.on_ground = False
-        self.sliding = False
-        self.jumping = 1
+        self.dy: int = self.jump_speed
+        self.on_ground: bool = False
+        self.sliding: bool = False
+        self.jumping: int = 1
 
     def second_jump(self):
-        self.dy = -15
-        self.jumping = 2
+        self.dy: int = -15
+        self.jumping: int = 2
 
     def slide(self):
         self.rect.height = 47
