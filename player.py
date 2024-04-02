@@ -1,6 +1,6 @@
 from typing import Any
 from support import import_folder
-from settings import CH_POS_Y, CH_SPEED
+from settings import CH_POS_Y, CH_SPEED, WIDTH
 import pygame
 
 
@@ -86,6 +86,16 @@ class Player(pygame.sprite.Sprite):
             self.sliding: bool = False
         if not keys[pygame.K_UP] and not keys[pygame.K_DOWN] and self.on_ground:
             self.run()
+        if keys[pygame.K_LEFT] and not keys[pygame.K_RIGHT]:
+            self.horizontal_movement(-3)
+        if keys[pygame.K_RIGHT] and not keys[pygame.K_LEFT]:
+            self.horizontal_movement(2)
+
+
+    def horizontal_movement(self, x: int):
+        self.rect.x += x
+        if self.rect.x > WIDTH - 200 or self.rect.x < 200:
+            self.rect.x -= x
 
     def apply_gravity(self):
         self.dy += self.gravity
