@@ -30,24 +30,12 @@ class Game:
         self.win = False
 
         self.obstacles: pygame.sprite.Group[Any] = pygame.sprite.Group()
-
         self.enemies: pygame.sprite.Group[Any] = pygame.sprite.Group()
 
-        self.x_pos_ground: int = 0
-        self.y_pos_ground: int = 450
         self.image_width: int = 900
         self.points: int = 0
         self.highest: int = 0
-        self.obstacles.add(
-            Ground(self.ground_choosing(), self.x_pos_ground, self.y_pos_ground)
-        )
-        self.obstacles.add(
-            Ground(
-                self.ground_choosing(),
-                self.image_width + self.x_pos_ground,
-                self.y_pos_ground,
-            )
-        )
+        self.ground_init()
         self.end_screen()
 
         self.enemy_timer = pygame.USEREVENT + 1
@@ -111,6 +99,20 @@ class Game:
         )
         self.score_rect = self.score_surf.get_rect(topleft=(0, 0))
         self.screen.blit(self.score_surf, self.score_rect)
+
+    def ground_init(self):
+        self.x_pos_ground: int = 0
+        self.y_pos_ground: int = 450
+        self.obstacles.add(
+            Ground(self.ground_choosing(), self.x_pos_ground, self.y_pos_ground)
+        )
+        self.obstacles.add(
+            Ground(
+                self.ground_choosing(),
+                self.image_width + self.x_pos_ground,
+                self.y_pos_ground,
+            )
+        )
 
     def ground_choosing(self) -> str:
         ground_list: list[str] = ["1", "2", "3"]
