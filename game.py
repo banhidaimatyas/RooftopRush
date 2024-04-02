@@ -16,26 +16,30 @@ class Game:
         pygame.display.set_caption("Rooftop Rush")
         self.clock = pygame.time.Clock()
         self.bg()
-        
+
         self.obstacles: pygame.sprite.Group[Any] = pygame.sprite.Group()
         self.enemies: pygame.sprite.Group[Any] = pygame.sprite.Group()
         self.characters: pygame.sprite.GroupSingle[Any] = pygame.sprite.GroupSingle()
         self.player: Player = Player(CH_POS_X, CH_POS_Y)
 
-        self.game_font = pygame.font.Font("Img/Font/tarrget.ttf", 30)
-        self.score_font = pygame.font.SysFont("Arial", 30)
-        self.font_colour = (255, 255, 255)
-
+        self.font_init()
         self.sounds_init()
         self.menu()
-        self.ground_init()
+        self.events_init()
 
         self.win = False
         self.image_width: int = 900
         self.points: int = 0
         self.highest: int = 0
         self.end_screen()
+        self.ground_init()
 
+    def font_init(self):
+        self.game_font = pygame.font.Font("Img/Font/tarrget.ttf", 30)
+        self.score_font = pygame.font.SysFont("Arial", 30)
+        self.font_colour = (255, 255, 255)
+
+    def events_init(self):
         self.enemy_timer = pygame.USEREVENT + 1
         pygame.time.set_timer(self.enemy_timer, 1500)
 
