@@ -174,20 +174,18 @@ class Game:
                     self.enemy_init()
 
             if self.game_active is True:
-
                 self.screen.blit(self.bg_surf, self.bg_rect)
-
                 self.characters.add(self.player)
                 self.characters.draw(self.screen)
                 self.player.update()
-
                 self.ground_generating()
+                
                 self.obstacles.draw(self.screen)
                 self.obstacles.update()
                 self.enemies.draw(self.screen)
                 self.enemies.update()
+                
                 self.y_movement_collision()
-
                 self.enemy_check()
                 self.double_jump_check()
 
