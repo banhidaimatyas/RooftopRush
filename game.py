@@ -14,7 +14,7 @@ class Game:
     def __init__(self) -> None:
         pygame.init()
         pygame.display.set_caption("Rooftop Rush")
-        self.clock = pygame.time.Clock()
+        self.clock: pygame.time.Clock = pygame.time.Clock()
         self.bg()
 
         self.obstacles: pygame.sprite.Group[Any] = pygame.sprite.Group()
@@ -27,7 +27,7 @@ class Game:
         self.menu()
         self.events_init()
 
-        self.win = False
+        self.win: bool = False
         self.image_width: int = 900
         self.points: int = 0
         self.highest: int = 0
@@ -35,12 +35,12 @@ class Game:
         self.ground_init()
 
     def font_init(self):
-        self.game_font = pygame.font.Font("Img/Font/tarrget.ttf", 30)
-        self.score_font = pygame.font.SysFont("Arial", 30)
-        self.font_colour = (255, 255, 255)
+        self.game_font: pygame.font.Font = pygame.font.Font("Img/Font/tarrget.ttf", 30)
+        self.score_font: pygame.font.Font = pygame.font.SysFont("Arial", 30)
+        self.font_colour: tuple[int, int, int] = (255, 255, 255)
 
     def events_init(self):
-        self.enemy_timer = pygame.USEREVENT + 1
+        self.enemy_timer: int = pygame.USEREVENT + 1
         pygame.time.set_timer(self.enemy_timer, 1500)
 
     def sounds_init(self):
@@ -62,46 +62,56 @@ class Game:
 
     def menu(self) -> None:
         self.screen: pygame.Surface = pygame.display.set_mode((WIDTH, HEIGHT))
-        self.menu_surf = pygame.image.load("Img/Map/menu2.jpeg").convert_alpha()
-        self.menu_surf = pygame.transform.scale(self.menu_surf, (900, 600))
+        self.menu_surf: pygame.Surface = pygame.image.load(
+            "Img/Map/menu2.jpeg"
+        ).convert_alpha()
+        self.menu_surf: pygame.Surface = pygame.transform.scale(
+            self.menu_surf, (900, 600)
+        )
         self.menu_rect: pygame.rect.Rect = self.bg_surf.get_rect(topleft=(0, 0))
-        self.run_surf = self.game_font.render(
+        self.run_surf: pygame.Surface = self.game_font.render(
             "Nyomd meg a [SPACE]-t az indításhoz!", True, self.font_colour
         )
-        self.run_rect = self.run_surf.get_rect(center=(WIDTH / 2, HEIGHT / 2 - 60))
+        self.run_rect: pygame.Rect = self.run_surf.get_rect(
+            center=(WIDTH / 2, HEIGHT / 2 - 60)
+        )
 
     def end_screen(self) -> None:
         self.game_end: bool = False
 
         self.screen: pygame.Surface = pygame.display.set_mode((WIDTH, HEIGHT))
-        self.end_surf = pygame.image.load("Img/Map/end_screen.jpg").convert_alpha()
-        self.end_surf = pygame.transform.scale(self.end_surf, (900, 600))
+        self.end_surf: pygame.Surface = pygame.image.load(
+            "Img/Map/end_screen.jpg"
+        ).convert_alpha()
+        self.end_surf: pygame.Surface = pygame.transform.scale(
+            self.end_surf, (900, 600)
+        )
         self.end_rect: pygame.rect.Rect = self.end_surf.get_rect(topleft=(0, 0))
-        self.end_text_surf = self.game_font.render(
+        self.end_text_surf: pygame.Surface = self.game_font.render(
             "Nyomd meg az [R]-t az újraindításhoz!", True, self.font_colour
         )
-        self.end_text_rect = self.end_text_surf.get_rect(
+        self.end_text_rect: pygame.Rect = self.end_text_surf.get_rect(
             center=(WIDTH / 2, HEIGHT / 2 - 60)
         )
 
     def update_hiscore(self) -> None:
-        self.h_points_surf = self.game_font.render(
+        self.h_points_surf: pygame.Surface = self.game_font.render(
             f"Legmagasabb pontszám: {self.highest}", True, self.font_colour
         )
-        self.h_points_rect = self.h_points_surf.get_rect(
+        self.h_points_rect: pygame.Rect = self.h_points_surf.get_rect(
             center=(WIDTH / 2, HEIGHT / 2 - 30)
         )
 
     def score(self) -> None:
-        self.game_speed = GAME_SPEED
+        self.game_speed: float = GAME_SPEED
         self.points += 1
         if self.points % 1000 == 0:
             self.game_speed += 0.5
 
-        self.score_surf = self.score_font.render(
+        self.score_surf: pygame.Surface = self.score_font.render(
             "Pontszám: " + str(self.points), True, (255, 255, 255)
         )
-        self.score_rect = self.score_surf.get_rect(topleft=(0, 0))
+        self.score_rect: pygame.Rect = self.score_surf.get_rect(topleft=(0, 0))
         self.screen.blit(self.score_surf, self.score_rect)
 
     def ground_init(self):
@@ -132,7 +142,7 @@ class Game:
                     self.y_pos_ground,
                 )
             )
-            self.x_pos_ground = 900
+            self.x_pos_ground: int = 900
         self.x_pos_ground -= GAME_SPEED
 
     def y_movement_collision(self) -> None:
@@ -142,7 +152,7 @@ class Game:
 
     def enemy_check(self) -> None:
         if pygame.sprite.spritecollide(self.player, self.enemies, False):
-            self.game_end = True
+            self.game_end: bool = True
             pygame.mixer.Sound.play(self.losing)
             pygame.mixer.music.pause()
 
@@ -172,7 +182,7 @@ class Game:
         while running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    running = False
+                    running: bool = False
                 if event.type == self.enemy_timer and self.game_active:
                     self.enemy_init()
 
@@ -182,12 +192,12 @@ class Game:
                 self.characters.draw(self.screen)
                 self.player.update()
                 self.ground_generating()
-                
+
                 self.obstacles.draw(self.screen)
                 self.obstacles.update()
                 self.enemies.draw(self.screen)
                 self.enemies.update()
-                
+
                 self.y_movement_collision()
                 self.enemy_check()
                 self.double_jump_check()
@@ -201,14 +211,14 @@ class Game:
 
                 keys = pygame.key.get_pressed()
                 if keys[pygame.K_SPACE]:
-                    self.game_active = True
+                    self.game_active: bool = True
                     pygame.mixer.Sound.play(self.start)
                     pygame.mixer.music.play()
 
             if self.game_end:
                 self.update_hiscore()
-                self.win = True
-                self.game_active = False
+                self.win: bool = True
+                self.game_active: bool = False
                 self.screen.blit(self.end_surf, self.end_rect)
                 self.screen.blit(self.end_text_surf, self.end_text_rect)
                 keys = pygame.key.get_pressed()
@@ -219,9 +229,9 @@ class Game:
                     pygame.mixer.Sound.play(self.start)
                     pygame.mixer.music.unpause()
                     self.enemy.kill()
-                    self.game_active = True
-                    self.game_end = False
-                    self.points = 0
+                    self.game_active: bool = True
+                    self.game_end: bool = False
+                    self.points: int = 0
 
             pygame.display.update()
             self.clock.tick(60)

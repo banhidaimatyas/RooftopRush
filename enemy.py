@@ -14,14 +14,14 @@ class Enemy(pygame.sprite.Sprite):
                 pygame.image.load("Img/Enemy/bat1.png").convert_alpha(),
                 pygame.image.load("Img/Enemy/bat2.png").convert_alpha(),
             ]
-            self.image = self.surfaces[0]
+            self.image: pygame.Surface = self.surfaces[0]
             self.rect: pygame.Rect = pygame.Rect(x, y, 70, 25)
         elif enemy_type == "2":
             self.surfaces: list[pygame.Surface] = [
                 pygame.image.load("Img/Enemy/szörny1.png").convert_alpha(),
                 pygame.image.load("Img/Enemy/szörny2.png").convert_alpha(),
             ]
-            self.image = self.surfaces[0]
+            self.image: pygame.Surface = self.surfaces[0]
             self.rect: pygame.Rect = pygame.Rect(x, y, 54, 71)
 
     def changing_images(self):
@@ -29,7 +29,7 @@ class Enemy(pygame.sprite.Sprite):
         if self.counter % 7 == 0:
             self.surf_index += 1
         if self.surf_index > len(self.surfaces) - 1:
-            self.surf_index = 0
+            self.surf_index: int = 0
         self.image = self.surfaces[self.surf_index]
 
     def shrinking_bat_images(self):
