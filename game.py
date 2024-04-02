@@ -138,14 +138,6 @@ class Game:
             self.player.on_ground = True
             self.player.dy = -1
 
-    def x_movement_collision(self) -> None:
-        if (
-            self.player.rect.x >= self.x_pos_ground - 900
-            and self.player.rect.y >= self.y_pos_ground
-            and pygame.sprite.spritecollide(self.player, self.obstacles, False)
-        ):
-            self.player.reset()
-
     def enemy_check(self) -> None:
         if pygame.sprite.spritecollide(self.player, self.enemies, False):
             self.game_end = True
@@ -195,8 +187,6 @@ class Game:
                 self.enemies.draw(self.screen)
                 self.enemies.update()
                 self.y_movement_collision()
-
-                self.x_movement_collision()
 
                 self.enemy_check()
                 self.double_jump_check()
