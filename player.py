@@ -96,7 +96,12 @@ class Player(pygame.sprite.Sprite):
             self.changing_speed(False, False)
 
     def changing_speed(self, getting_faster: bool, slowing_down: bool):
-        
+        if getting_faster and not slowing_down:
+            pass
+        elif not getting_faster and slowing_down:
+            pass
+        else:
+            pass 
 
     def horizontal_movement(self, x: int):
         self.rect.x += x
