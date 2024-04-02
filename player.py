@@ -97,11 +97,11 @@ class Player(pygame.sprite.Sprite):
 
     def changing_speed(self, getting_faster: bool, slowing_down: bool):
         if getting_faster and not slowing_down:
-            pass
+            self.animation_speed = CH_SPEED + 0.1
         elif not getting_faster and slowing_down:
-            pass
+            self.animation_speed = CH_SPEED - 0.15
         else:
-            pass 
+            self.animation_speed = CH_SPEED
 
     def horizontal_movement(self, x: int):
         self.rect.x += x
