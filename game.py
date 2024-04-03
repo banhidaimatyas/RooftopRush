@@ -170,6 +170,8 @@ class Game:
             pygame.mixer.Sound.play(self.powerup)
         if self.points > 1500:
             self.player.double_jump_activated = True
+        else:
+            self.player.double_jump_activated = False
 
     def run(self) -> None:
         running: bool = True
