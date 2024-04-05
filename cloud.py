@@ -13,9 +13,13 @@ class Cloud(pygame.sprite.Sprite):
         self.image: pygame.Surface = pygame.transform.rotozoom(self.image, 0, 0.2)
 
     def moving_left(self):
-        self.rect.x += -10        
-    
+        self.rect.x += -5
+
+    def destroy(self):
+        if self.rect.x < -400:
+            self.kill()
+
     def update(self, *args: Any, **kwargs: Any) -> None:
         super().update(*args, **kwargs)
         self.moving_left()
-
+        self.destroy()
