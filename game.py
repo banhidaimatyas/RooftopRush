@@ -37,10 +37,11 @@ class Game:
         self.ground_init()
 
     def cloud_generating(self):
-        cloud: Cloud = Cloud(900, 20)
+        y: int = random.randint(20, 60)
+        x: int = random.randint(WIDTH, WIDTH + 20)
+        cloud: Cloud = Cloud(x, y)
         self.clouds.add(cloud)
-        
-    
+
     def font_init(self):
         self.game_font: pygame.font.Font = pygame.font.Font("Img/Font/tarrget.ttf", 30)
         self.score_font: pygame.font.Font = pygame.font.SysFont("Arial", 30)
