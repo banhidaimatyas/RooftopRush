@@ -29,12 +29,17 @@ class Game:
         self.menu()
         self.events_init()
 
+        self.difficulty: int = 0
         self.win: bool = False
         self.image_width: int = 900
         self.points: int = 0
         self.highest: int = 0
         self.end_screen()
         self.ground_init()
+
+    def difficulty_changing(self):
+        if self.difficulty <= 10:
+            self.difficulty += 1
 
     def cloud_generating(self):
         y: int = random.randint(10, 80)
