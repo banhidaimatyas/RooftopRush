@@ -205,6 +205,8 @@ class Game:
                     self.enemy_init()
                 if event.type == self.cloud_timer and self.game_active:
                     self.cloud_generating()
+                if event.type == self.difficulty_timer and self.game_active:
+                    self.difficulty_changing()
 
             if self.game_active is True:
                 self.screen.blit(self.bg_surf, self.bg_rect)
