@@ -59,7 +59,7 @@ class Game:
         random_time: int = random.randint(2000, 5000)
         pygame.time.set_timer(self.cloud_timer, random_time)
         self.difficulty_timer: int = pygame.USEREVENT + 3
-        pygame.time.set_timer(self.difficulty_timer, 5000)
+        pygame.time.set_timer(self.difficulty_timer, 2500)
 
     def sounds_init(self):
         pygame.mixer.init()
@@ -176,8 +176,7 @@ class Game:
 
     def enemy_init(self) -> None:
         enemy_type: str = random.choice(["1", "2"])
-        self.enemy: Enemy = Enemy(enemy_type, random.randint(900, 900), 380)
-        self.ground_choosing()
+        self.enemy: Enemy = Enemy(enemy_type, random.randint(900, 900), 380, self.difficulty)
         if enemy_type == "1":
             self.enemies.add(self.enemy)
         else:
@@ -258,6 +257,7 @@ class Game:
                     self.game_active: bool = True
                     self.game_end: bool = False
                     self.points: int = 0
+                    self.difficulty: int = 0
 
             pygame.display.update()
             self.clock.tick(60)
