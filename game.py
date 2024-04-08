@@ -54,7 +54,7 @@ class Game:
 
     def events_init(self):
         self.enemy_timer: int = pygame.USEREVENT + 1
-        pygame.time.set_timer(self.enemy_timer, 1500)
+        pygame.time.set_timer(self.enemy_timer, 950)
         self.cloud_timer: int = pygame.USEREVENT + 2
         random_time: int = random.randint(2000, 5000)
         pygame.time.set_timer(self.cloud_timer, random_time)
@@ -121,10 +121,7 @@ class Game:
         )
 
     def score(self) -> None:
-        self.game_speed: float = GAME_SPEED
         self.points += 1
-        if self.points % 1000 == 0:
-            self.game_speed += 0.5
 
         self.score_surf: pygame.Surface = self.score_font.render(
             "Pontszám: " + str(self.points), True, (255, 255, 255)
@@ -176,16 +173,18 @@ class Game:
 
     def enemy_init(self) -> None:
         enemy_type: str = random.choice(["1", "2"])
-        self.enemy: Enemy = Enemy(enemy_type, random.randint(900, 900), 380, self.difficulty)
+        self.enemy: Enemy = Enemy(
+            enemy_type, random.randint(900, 900), 380, self.difficulty
+        )
         if enemy_type == "1":
             self.enemies.add(self.enemy)
         else:
             self.enemies.add(self.enemy)
 
     def double_jump_check(self):
-        if self.points == 1500:
+        if self.points == 3000:
             pygame.mixer.Sound.play(self.powerup)
-        if self.points > 1500:
+        if self.points > 3000:
             self.player.double_jump_activated = True
         else:
             self.player.double_jump_activated = False
