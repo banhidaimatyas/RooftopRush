@@ -37,7 +37,7 @@ class Game:
         self.ground_init()
 
     def cloud_generating(self):
-        y: int = random.randint(20, 60)
+        y: int = random.randint(10, 80)
         x: int = random.randint(WIDTH, WIDTH + 20)
         cloud: Cloud = Cloud(x, y)
         self.clouds.add(cloud)
