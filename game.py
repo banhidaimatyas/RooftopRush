@@ -58,6 +58,8 @@ class Game:
         self.cloud_timer: int = pygame.USEREVENT + 2
         random_time: int = random.randint(2000, 5000)
         pygame.time.set_timer(self.cloud_timer, random_time)
+        self.difficulty_timer: int = pygame.USEREVENT + 3
+        pygame.time.set_timer(self.difficulty_timer, 5000)
 
     def sounds_init(self):
         pygame.mixer.init()
