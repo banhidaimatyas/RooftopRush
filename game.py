@@ -4,6 +4,7 @@ from player import Player
 import random
 from ground import Ground
 from enemy import Enemy
+from cloud import Cloud
 
 import pygame
 import sys
@@ -21,6 +22,7 @@ class Game:
         self.enemies: pygame.sprite.Group[Any] = pygame.sprite.Group()
         self.characters: pygame.sprite.GroupSingle[Any] = pygame.sprite.GroupSingle()
         self.player: Player = Player(CH_POS_X, CH_POS_Y)
+        self.clouds: pygame.sprite.Group[Any] = pygame.sprite.Group()
 
         self.font_init()
         self.sounds_init()
@@ -34,6 +36,12 @@ class Game:
         self.end_screen()
         self.ground_init()
 
+    def cloud_generating(self):
+        y: int = random.randint(10, 80)
+        x: int = random.randint(WIDTH, WIDTH + 20)
+        cloud: Cloud = Cloud(x, y)
+        self.clouds.add(cloud)
+
     def font_init(self):
         self.game_font: pygame.font.Font = pygame.font.Font("Img/Font/tarrget.ttf", 30)
         self.score_font: pygame.font.Font = pygame.font.SysFont("Arial", 30)
@@ -42,6 +50,9 @@ class Game:
     def events_init(self):
         self.enemy_timer: int = pygame.USEREVENT + 1
         pygame.time.set_timer(self.enemy_timer, 1500)
+        self.cloud_timer: int = pygame.USEREVENT + 2
+        random_time: int = random.randint(2000, 5000)
+        pygame.time.set_timer(self.cloud_timer, random_time)
 
     def sounds_init(self):
         pygame.mixer.init()
@@ -187,6 +198,8 @@ class Game:
                     running: bool = False
                 if event.type == self.enemy_timer and self.game_active:
                     self.enemy_init()
+                if event.type == self.cloud_timer and self.game_active:
+                    self.cloud_generating()
 
             if self.game_active is True:
                 self.screen.blit(self.bg_surf, self.bg_rect)
@@ -199,6 +212,8 @@ class Game:
                 self.obstacles.update()
                 self.enemies.draw(self.screen)
                 self.enemies.update()
+                self.clouds.draw(self.screen)
+                self.clouds.update()
 
                 self.y_movement_collision()
                 self.enemy_check()
