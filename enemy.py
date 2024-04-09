@@ -1,14 +1,15 @@
 import pygame
 from typing import Any
-from settings import GAME_SPEED
 
 
 class Enemy(pygame.sprite.Sprite):
-    def __init__(self, enemy_type: str, x: int, y: int):
+    def __init__(self, enemy_type: str, x: int, y: int, difficulty_number: int):
         pygame.sprite.Sprite.__init__(self)
         self.enemy_type: str = enemy_type
         self.counter: int = 0
         self.surf_index = 0
+        difficulties: list[int] = [10, 11, 12, 13, 14, 15, 16, 17, 20, 22, 25, 27]
+        self.actual_difficulty: int = difficulties[difficulty_number]
         if enemy_type == "1":
             self.surfaces: list[pygame.Surface] = [
                 pygame.image.load("Img/Enemy/bat1.png").convert_alpha(),
@@ -44,5 +45,5 @@ class Enemy(pygame.sprite.Sprite):
         super().update(*args, **kwargs)
         self.changing_images()
         self.shrinking_bat_images()
-        self.rect.x -= GAME_SPEED + 2
+        self.rect.x -= self.actual_difficulty
         self.destroy()

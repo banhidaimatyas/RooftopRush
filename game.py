@@ -29,12 +29,17 @@ class Game:
         self.menu()
         self.events_init()
 
+        self.difficulty: int = 0
         self.win: bool = False
         self.image_width: int = 900
         self.points: int = 0
         self.highest: int = 0
         self.end_screen()
         self.ground_init()
+
+    def difficulty_changing(self):
+        if self.difficulty <= 10:
+            self.difficulty += 1
 
     def cloud_generating(self):
         y: int = random.randint(10, 80)
@@ -49,10 +54,12 @@ class Game:
 
     def events_init(self):
         self.enemy_timer: int = pygame.USEREVENT + 1
-        pygame.time.set_timer(self.enemy_timer, 1500)
+        pygame.time.set_timer(self.enemy_timer, 950)
         self.cloud_timer: int = pygame.USEREVENT + 2
         random_time: int = random.randint(2000, 5000)
         pygame.time.set_timer(self.cloud_timer, random_time)
+        self.difficulty_timer: int = pygame.USEREVENT + 3
+        pygame.time.set_timer(self.difficulty_timer, 2500)
 
     def sounds_init(self):
         pygame.mixer.init()
@@ -114,10 +121,7 @@ class Game:
         )
 
     def score(self) -> None:
-        self.game_speed: float = GAME_SPEED
         self.points += 1
-        if self.points % 1000 == 0:
-            self.game_speed += 0.5
 
         self.score_surf: pygame.Surface = self.score_font.render(
             "Pontszám: " + str(self.points), True, (255, 255, 255)
@@ -169,17 +173,18 @@ class Game:
 
     def enemy_init(self) -> None:
         enemy_type: str = random.choice(["1", "2"])
-        self.enemy: Enemy = Enemy(enemy_type, random.randint(900, 900), 380)
-        self.ground_choosing()
+        self.enemy: Enemy = Enemy(
+            enemy_type, random.randint(900, 900), 380, self.difficulty
+        )
         if enemy_type == "1":
             self.enemies.add(self.enemy)
         else:
             self.enemies.add(self.enemy)
 
     def double_jump_check(self):
-        if self.points == 1500:
+        if self.points == 3000:
             pygame.mixer.Sound.play(self.powerup)
-        if self.points > 1500:
+        if self.points > 3000:
             self.player.double_jump_activated = True
         else:
             self.player.double_jump_activated = False
@@ -200,6 +205,8 @@ class Game:
                     self.enemy_init()
                 if event.type == self.cloud_timer and self.game_active:
                     self.cloud_generating()
+                if event.type == self.difficulty_timer and self.game_active:
+                    self.difficulty_changing()
 
             if self.game_active is True:
                 self.screen.blit(self.bg_surf, self.bg_rect)
@@ -249,6 +256,7 @@ class Game:
                     self.game_active: bool = True
                     self.game_end: bool = False
                     self.points: int = 0
+                    self.difficulty: int = 0
 
             pygame.display.update()
             self.clock.tick(60)
