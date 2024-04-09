@@ -1,6 +1,6 @@
 from typing import Any
 from settings import CH_POS_X, CH_POS_Y, GAME_SPEED, HEIGHT, WIDTH
-from player import Player
+from character import Player
 import random
 from ground import Ground
 from enemy import Enemy
