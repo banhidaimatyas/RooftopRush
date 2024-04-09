@@ -171,15 +171,12 @@ class Game:
             pygame.mixer.Sound.play(self.losing)
             pygame.mixer.music.pause()
 
-    def enemy_init(self) -> None:
+    def enemy_add(self) -> None:
         enemy_type: str = random.choice(["1", "2"])
         self.enemy: Enemy = Enemy(
             enemy_type, random.randint(900, 900), 380, self.difficulty
         )
-        if enemy_type == "1":
-            self.enemies.add(self.enemy)
-        else:
-            self.enemies.add(self.enemy)
+        self.enemies.add(self.enemy)
 
     def double_jump_check(self):
         if self.points == 3000:
@@ -202,7 +199,7 @@ class Game:
                 if event.type == pygame.QUIT:
                     running: bool = False
                 if event.type == self.enemy_timer and self.game_active:
-                    self.enemy_init()
+                    self.enemy_add()
                 if event.type == self.cloud_timer and self.game_active:
                     self.cloud_generating()
                 if event.type == self.difficulty_timer and self.game_active:
