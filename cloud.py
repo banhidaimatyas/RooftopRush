@@ -3,7 +3,7 @@ from typing import Any
 
 
 class Cloud(pygame.sprite.Sprite):
-    def __init__(self, x: int, y: int):
+    def __init__(self, x: int, y: int) -> None:
         pygame.sprite.Sprite.__init__(self)
 
         self.rect: pygame.Rect = pygame.Rect(x, y, 321, 306)
@@ -12,10 +12,10 @@ class Cloud(pygame.sprite.Sprite):
         ).convert_alpha()
         self.image: pygame.Surface = pygame.transform.rotozoom(self.image, 0, 0.2)
 
-    def moving_left(self):
+    def moving_left(self) -> None:
         self.rect.x += -5
 
-    def destroy(self):
+    def destroy(self) -> None:
         if self.rect.x < -400:
             self.kill()
 
