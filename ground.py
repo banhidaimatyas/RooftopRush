@@ -4,7 +4,7 @@ from settings import GAME_SPEED
 
 
 class Ground(pygame.sprite.Sprite):
-    def __init__(self, ground_type: str, x: int, y: int):
+    def __init__(self, ground_type: str, x: int, y: int) -> None:
         pygame.sprite.Sprite.__init__(self)
 
         if ground_type == "1":
@@ -21,7 +21,7 @@ class Ground(pygame.sprite.Sprite):
             ).convert_alpha()
         self.rect: pygame.Rect = pygame.Rect(x, y, 900, 450)
 
-    def destroy(self):
+    def destroy(self) -> None:
         if self.rect.right <= -1:
             self.kill()
 

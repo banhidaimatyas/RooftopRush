@@ -37,22 +37,22 @@ class Game:
         self.end_screen()
         self.ground_init()
 
-    def difficulty_changing(self):
+    def difficulty_changing(self) -> None:
         if self.difficulty <= 10:
             self.difficulty += 1
 
-    def cloud_generating(self):
+    def cloud_generating(self) -> None:
         y: int = random.randint(10, 80)
         x: int = random.randint(WIDTH, WIDTH + 20)
         cloud: Cloud = Cloud(x, y)
         self.clouds.add(cloud)
 
-    def font_init(self):
+    def font_init(self) -> None:
         self.game_font: pygame.font.Font = pygame.font.Font("Img/Font/tarrget.ttf", 30)
         self.score_font: pygame.font.Font = pygame.font.SysFont("Arial", 30)
         self.font_colour: tuple[int, int, int] = (255, 255, 255)
 
-    def events_init(self):
+    def events_init(self) -> None:
         self.enemy_timer: int = pygame.USEREVENT + 1
         pygame.time.set_timer(self.enemy_timer, 950)
         self.cloud_timer: int = pygame.USEREVENT + 2
@@ -61,7 +61,7 @@ class Game:
         self.difficulty_timer: int = pygame.USEREVENT + 3
         pygame.time.set_timer(self.difficulty_timer, 2500)
 
-    def sounds_init(self):
+    def sounds_init(self) -> None:
         pygame.mixer.init()
         pygame.mixer.music.load("Music/background.wav")
         pygame.mixer.music.set_volume(0.01)
@@ -129,7 +129,7 @@ class Game:
         self.score_rect: pygame.Rect = self.score_surf.get_rect(topleft=(0, 0))
         self.screen.blit(self.score_surf, self.score_rect)
 
-    def ground_init(self):
+    def ground_init(self) -> None:
         self.x_pos_ground: int = 0
         self.y_pos_ground: int = 450
         self.obstacles.add(
@@ -147,7 +147,7 @@ class Game:
         ground_list: list[str] = ["1", "2", "3"]
         return random.choice(ground_list)
 
-    def ground_generating(self):
+    def ground_generating(self) -> None:
         image_width: int = 900
         if self.x_pos_ground <= 0:
             self.obstacles.add(
@@ -178,7 +178,7 @@ class Game:
         )
         self.enemies.add(self.enemy)
 
-    def double_jump_check(self):
+    def double_jump_check(self) -> None:
         if self.points == 3000:
             pygame.mixer.Sound.play(self.powerup)
         if self.points > 3000:

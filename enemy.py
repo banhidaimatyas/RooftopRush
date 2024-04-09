@@ -3,7 +3,7 @@ from typing import Any
 
 
 class Enemy(pygame.sprite.Sprite):
-    def __init__(self, enemy_type: str, x: int, y: int, difficulty_number: int):
+    def __init__(self, enemy_type: str, x: int, y: int, difficulty_number: int) -> None:
         pygame.sprite.Sprite.__init__(self)
         self.enemy_type: str = enemy_type
         self.counter: int = 0
@@ -25,7 +25,7 @@ class Enemy(pygame.sprite.Sprite):
             self.image: pygame.Surface = self.surfaces[0]
             self.rect: pygame.Rect = pygame.Rect(x, y, 54, 71)
 
-    def changing_images(self):
+    def changing_images(self) -> None:
         self.counter += 1
         if self.counter % 7 == 0:
             self.surf_index += 1
@@ -33,11 +33,11 @@ class Enemy(pygame.sprite.Sprite):
             self.surf_index: int = 0
         self.image = self.surfaces[self.surf_index]
 
-    def shrinking_bat_images(self):
+    def shrinking_bat_images(self) -> None:
         if self.enemy_type == "1":
             self.image = pygame.transform.rotozoom(self.image, 0, 0.15)
 
-    def destroy(self):
+    def destroy(self) -> None:
         if self.rect.right <= -1:
             self.kill()
 
