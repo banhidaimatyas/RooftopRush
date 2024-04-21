@@ -12,15 +12,15 @@ class Enemy(pygame.sprite.Sprite):
         self.actual_difficulty: int = difficulties[difficulty_number]
         if enemy_type == "1":
             self.surfaces: list[pygame.Surface] = [
-                pygame.image.load("Img/Enemy/bat1.png").convert_alpha(),
-                pygame.image.load("Img/Enemy/bat2.png").convert_alpha(),
+                pygame.image.load("Img/Enemy/bat_1.png").convert_alpha(),
+                pygame.image.load("Img/Enemy/bat_2.png").convert_alpha(),
             ]
             self.image: pygame.Surface = self.surfaces[0]
             self.rect: pygame.Rect = pygame.Rect(x, y, 70, 25)
         elif enemy_type == "2":
             self.surfaces: list[pygame.Surface] = [
-                pygame.image.load("Img/Enemy/szörny1.png").convert_alpha(),
-                pygame.image.load("Img/Enemy/szörny2.png").convert_alpha(),
+                pygame.image.load("Img/Enemy/monster_1.png").convert_alpha(),
+                pygame.image.load("Img/Enemy/monster_2.png").convert_alpha(),
             ]
             self.image: pygame.Surface = self.surfaces[0]
             self.rect: pygame.Rect = pygame.Rect(x, y, 54, 71)
