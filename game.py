@@ -81,7 +81,7 @@ class Game:
     def menu(self) -> None:
         self.screen: pygame.Surface = pygame.display.set_mode((WIDTH, HEIGHT))
         self.menu_surf: pygame.Surface = pygame.image.load(
-            "Img/Map/menu2.jpeg"
+            "Img/Map/menu_2.jpeg"
         ).convert_alpha()
         self.menu_surf: pygame.Surface = pygame.transform.scale(
             self.menu_surf, (900, 600)
